@@ -272,6 +272,55 @@ main > section:not(.hero) {
   border-radius: 4px;
 }
 
+/* Certificates */
+
+.cert-list {
+  list-style: none;
+  margin: 1.5rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.8rem;
+  max-width: 620px;
+}
+
+.cert {
+  background: var(--card);
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  padding: 1rem 1.35rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  transition: border-color 0.15s ease;
+}
+
+.cert:hover {
+  border-color: var(--blue);
+}
+
+.cert-name {
+  font-size: 1.02rem;
+  font-weight: 650;
+  font-stretch: 112%;
+  margin: 0;
+}
+
+.cert-issuer {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--pencil);
+  margin: 0.2rem 0 0;
+}
+
+.cert-link {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
 /* Projects*/
 
 .cards {
