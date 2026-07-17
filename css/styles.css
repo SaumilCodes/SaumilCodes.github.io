@@ -20,6 +20,21 @@
   --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
+/* dark theme, follows the device setting */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #15181e;
+    --card: #1c212b;
+    --ink: #e6e9ef;
+    --pencil: #9aa3b0;
+    --blue: #8aa3e8;
+    --blue-deep: #a9bcf0;
+    --red: #d97f79;
+    --line: #262c37;
+    --line-strong: #343c4a;
+  }
+}
+
 /* Base */
 
 * {
@@ -42,7 +57,7 @@ body {
 
 ::selection {
   background: var(--blue);
-  color: #fff;
+  color: var(--paper);
 }
 
 a {
@@ -78,7 +93,7 @@ a:hover {
   top: 1rem;
   z-index: 50;
   background: var(--ink);
-  color: #fff;
+  color: var(--paper);
   padding: 0.5rem 0.9rem;
   border-radius: 4px;
 }
@@ -259,7 +274,7 @@ h1 {
 .hero-links a:hover {
   background: var(--blue);
   border-color: var(--blue);
-  color: #fff;
+  color: var(--paper);
 }
 
 /* Sections */
