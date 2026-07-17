@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saumil — CS student</title>
+  <meta name="description" content="Personal site of Saumil, a first-year computer science student at JUIT learning front-end development. Built by hand with HTML and CSS.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%232B4A9F'/%3E%3Ctext x='50' y='70' font-size='56' font-weight='bold' text-anchor='middle' fill='%23F6F7F4' font-family='Arial, sans-serif'%3ES%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-head">
+    <div class="container nav">
+      <a class="brand" href="#top">S<span class="brand-dot">.</span></a>
+      <nav aria-label="Primary">
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container page" id="top">
+    <main id="main">
+      <section class="hero" aria-label="Introduction">
+        <p class="eyebrow">B.Tech CSE ’29 · JUIT, Himachal Pradesh</p>
+        <h1>Learning the web <span class="h1-accent">by&nbsp;hand.</span></h1>
+        <p class="lede">
+          I’m Saumil, a first-year computer science student. This summer I’m working
+          through Meta’s front-end courses on Coursera — semantic HTML, real CSS
+          layout — and everything I build ends up on this page and on GitHub.
+        </p>
+        <ul class="hero-links">
+       
+          <li><a href="https://github.com/SaumilCodes" rel="me">GitHub&nbsp;↗</a></li>
+          
+          <li><a href="https://www.linkedin.com/in/saumil-gupta" rel="me">LinkedIn&nbsp;↗</a></li>
+          
+          <li><a href="workwithsaumil@gmail.com">Email</a></li>
+        </ul>
+      </section>
+
+      <!--About-->
+      <section id="about" class="section-grid" aria-labelledby="about-label">
+        <h2 class="label" id="about-label">About</h2>
+        <div class="section-body">
+          <p>
+            I started at JUIT in 2025 and spent my first year on fundamentals —
+            C, how memory works, why programs break. This summer I’m going deeper
+            into the web: HTML that carries meaning, and CSS layouts that don’t
+            fall apart the moment someone opens them on a phone.
+          </p>
+          <p>
+            This site is part of that practice. No frameworks, no template — one
+            HTML file and one stylesheet, written by hand. Everything I make goes
+            up on GitHub, partly for my university’s summer training and mostly
+            because building in public keeps me honest.
+          </p>
+        
+        </div>
+      </section>
+
+      <!-- Skills -->
+      <section id="skills" class="section-grid" aria-labelledby="skills-label">
+        <h2 class="label" id="skills-label">Skills</h2>
+        <div class="section-body">
+          <p class="note">An honest list — no percentage bars.</p>
+          <div class="skill-groups">
+            <div>
+              <h3>Working with</h3>
+              <ul class="chips">
+                <li>Semantic HTML</li>
+                <li>CSS — Flexbox &amp; Grid</li>
+                <li>Responsive layouts</li>
+                <li>Git &amp; GitHub</li>
+                <li>C</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Learning now</h3>
+              <ul class="chips">
+                <li>C++</li>
+                <li>Data structures &amp; algorithms</li>
+                <li>JavaScript (up next)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects -->
+      <section id="projects" class="section-grid" aria-labelledby="projects-label">
+        <h2 class="label" id="projects-label">Projects</h2>
+        <div class="section-body">
+          <p class="note">Everything ships to GitHub. Here’s what exists so far.</p>
+          <div class="cards">
+
+            <article class="card">
+              <div class="card-top">
+                <h3 class="card-title">This website</h3>
+                <p class="status">Live</p>
+              </div>
+              <p>
+                Designed and built from scratch — semantic HTML, one hand-written
+                stylesheet, zero JavaScript. Fully responsive with CSS Grid and
+                Flexbox.
+              </p>
+              <div class="card-meta">
+                <p class="tags">HTML · CSS</p>
+                <!-- replace with the link to this site's repository -->
+                <a class="card-link" href="https://github.com/your-username/portfolio">Source&nbsp;↗</a>
+              </div>
+            </article>
+
+            <article class="card">
+              <div class="card-top">
+                <h3 class="card-title">DSA practice log</h3>
+                <p class="status wip">In progress</p>
+              </div>
+              <p>
+                A public log of data-structures problems solved in C++, each with
+                a short note on the approach — so future me remembers why it works.
+              </p>
+              <div class="card-meta">
+                <p class="tags">C++ · DSA</p>
+                <!-- replace with the link to practice repo once it exists -->
+                <a class="card-link" href="https://github.com/your-username">Repository&nbsp;↗</a>
+              </div>
+            </article>
+
+            <!-- reminder for later, when you finish your next project, copy this template,
+                 uncomment it.
+
+            <article class="card">
+              <div class="card-top">
+                <h3 class="card-title">Project name</h3>
+                <p class="status">Live</p>
+              </div>
+              <p>One or two sentences: what it is, and one detail you're proud of.</p>
+              <div class="card-meta">
+                <p class="tags">HTML · CSS</p>
+                <a class="card-link" href="https://github.com/your-username/repo-name">Source&nbsp;↗</a>
+              </div>
+            </article>
+            -->
+
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact-->
+      <section id="contact" class="section-grid" aria-labelledby="contact-label">
+        <h2 class="label" id="contact-label">Contact</h2>
+        <div class="section-body">
+          <p class="note">A first-year student’s inbox is not a busy place. Say hi.</p>
+          <address>
+            
+            <a class="email" href="workwithsaumil@gmail.com">workwithsaumil@gmail.com</a>
+            <ul class="contact-links">
+          
+              <li><a href="https://github.com/SaumilCodes" rel="me">GitHub&nbsp;↗</a></li>
+              <li><a href="https://www.linkedin.com/in/saumil-gupta" rel="me">LinkedIn&nbsp;↗</a></li>
+            </ul>
+          </address>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="site-foot">
+      <p>© 2026 Saumil</p>
+      <p>Written by hand — HTML &amp; CSS, no frameworks.</p>
+    </footer>
+  </div>
+
+</body>
+</html>
