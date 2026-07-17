@@ -176,6 +176,34 @@ a:hover {
   padding-block: clamp(3.5rem, 10vw, 6.5rem) clamp(2.8rem, 7vw, 4.5rem);
 }
 
+/* fade the hero in, one line after another */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero > * {
+  animation: rise 0.5s ease both;
+}
+
+.hero > *:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.hero > *:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.hero > *:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
 .eyebrow {
   font-family: var(--mono);
   font-size: 0.72rem;
@@ -524,5 +552,6 @@ address {
 
   * {
     transition: none !important;
+    animation: none !important;
   }
 }
