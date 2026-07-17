@@ -492,6 +492,12 @@ main > section:not(.hero) {
   white-space: nowrap;
 }
 
+.card-links {
+  margin: 0;
+  display: flex;
+  gap: 0.9rem;
+}
+
 /* Contact */
 
 address {
