@@ -36,6 +36,62 @@
   }
 }
 
+/* theme toggle, no javascript
+   the checkbox sits at the top of the body, this rule flips the tokens
+   when it is checked. resets on reload, that is the tradeoff. */
+
+.theme-box {
+  position: absolute;
+  left: -999px;
+}
+
+html:has(.theme-box:checked) {
+  color-scheme: dark;
+  --bg: #0f1117;
+  --card: #151a24;
+  --ink: #e8eaf2;
+  --muted: #9aa2b4;
+  --accent: #9181ff;
+  --accent-deep: #ab9dff;
+  --wip: #e0736d;
+  --line: #222839;
+  --line-strong: #323a4f;
+}
+
+.theme-toggle {
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  padding: 0.35em 0.9em;
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.t-light {
+  display: none;
+}
+
+html:has(.theme-box:checked) .t-light {
+  display: inline;
+}
+
+html:has(.theme-box:checked) .t-dark {
+  display: none;
+}
+
+html:has(.theme-box:focus-visible) .theme-toggle {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
 /* Base */
 
 * {
