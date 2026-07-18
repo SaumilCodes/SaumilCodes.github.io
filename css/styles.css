@@ -455,6 +455,60 @@ main > section:not(.hero) {
   overflow-x: auto;
 }
 
+/* the typing effect, width grows in character steps */
+
+.line {
+  display: block;
+  width: 0;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.l1 {
+  --w: 23ch;
+  animation: type 1s steps(23, end) 0.4s forwards;
+}
+
+.l2 {
+  --w: 26ch;
+  animation: type 1.1s steps(26, end) 1.6s forwards;
+}
+
+.l3 {
+  --w: 28ch;
+  animation: type 1.2s steps(28, end) 2.9s forwards;
+}
+
+.l4 {
+  --w: 10ch;
+  animation: type 0.5s steps(10, end) 4.3s forwards;
+}
+
+@keyframes type {
+  to {
+    width: var(--w);
+  }
+}
+
+.l4::after {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 0.95em;
+  margin-left: 2px;
+  background: #9181ff;
+  vertical-align: -0.1em;
+  opacity: 0;
+  animation: blink 1s steps(2, start) 4.9s infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 1;
+  }
+}
+
 /* Skills */
 
 .skill-groups {
