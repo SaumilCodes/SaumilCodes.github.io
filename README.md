@@ -1,8 +1,8 @@
 # saumilcodes.github.io
 
-My personal site. One HTML file, one stylesheet, no frameworks and no JavaScript.
+My personal site. One HTML file per page, one stylesheet, no frameworks and no JavaScript.
 
-Built after finishing two of Meta's front-end courses on Coursera (Introduction to Front-End Development, and HTML and CSS in Depth). The layout uses CSS Grid and Flexbox, it is mobile first, and it has a dark mode that follows your device setting.
+Built after finishing Meta's Introduction to Front-End Development and HTML and CSS in Depth courses on Coursera. The layout uses CSS Grid and Flexbox, it is mobile first, and the light and dark theme toggle in the header is done entirely in CSS with a hidden checkbox. There is also a resume page styled for printing, so Ctrl P gives a clean PDF.
 
 Live at [saumilcodes.github.io](https://saumilcodes.github.io)
 
