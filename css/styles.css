@@ -765,6 +765,41 @@ address {
   }
 }
 
+/* printing the resume gives just the resume */
+
+@media print {
+  .site-head,
+  .skip,
+  .print-hint {
+    display: none;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  .resume {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .r-sec {
+    margin-top: 1.4rem;
+    padding-top: 0.9rem;
+    border-color: #ddd;
+  }
+
+  .r-sec h2,
+  a {
+    color: #000;
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
+
 /* Accessibility */
 
 @media (prefers-reduced-motion: reduce) {
