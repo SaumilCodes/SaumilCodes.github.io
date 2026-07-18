@@ -6,15 +6,15 @@
 /* tokens */
 
 :root {
-  --paper: #f6f7f4;        
-  --card: #ffffff;         
-  --ink: #1d2433;          
-  --pencil: #67707e;       
-  --blue: #2b4a9f;        
-  --blue-deep: #1d3b8b;
-  --red: #c4514b;          
-  --line: #e2e5de;         
-  --line-strong: #ced3c9;  
+  --paper: #fafafa;
+  --card: #ffffff;
+  --ink: #16181d;
+  --pencil: #5f6470;
+  --blue: #6d5ae6;
+  --blue-deep: #5342c0;
+  --red: #d9564f;
+  --line: #e7e8ec;
+  --line-strong: #d3d5dd;
 
   --display: "Space Grotesk", "Segoe UI", Arial, sans-serif;
   --sans: "Inter", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
