@@ -119,9 +119,9 @@ a:hover {
 }
 
 .brand {
+  font-family: var(--display);
   font-weight: 700;
-  font-stretch: 118%;
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   color: var(--ink);
   text-decoration: none;
 }
@@ -230,10 +230,10 @@ a:hover {
 }
 
 h1 {
-  font-size: clamp(2.5rem, 7.5vw, 4.6rem);
+  font-family: var(--display);
+  font-size: clamp(2.5rem, 7.5vw, 4.4rem);
   font-weight: 700;
-  font-stretch: 123%;
-  line-height: 1.03;
+  line-height: 1.05;
   letter-spacing: -0.015em;
   margin: 0.4em 0 0.45em;
   max-width: 14ch;
@@ -326,9 +326,9 @@ main > section:not(.hero) {
 }
 
 .skill-groups h3 {
-  font-size: 0.98rem;
+  font-family: var(--display);
+  font-size: 1rem;
   font-weight: 600;
-  font-stretch: 110%;
   margin: 0 0 0.8rem;
 }
 
@@ -379,9 +379,9 @@ main > section:not(.hero) {
 }
 
 .cert-name {
+  font-family: var(--display);
   font-size: 1.02rem;
-  font-weight: 650;
-  font-stretch: 112%;
+  font-weight: 600;
   margin: 0;
 }
 
@@ -433,9 +433,9 @@ main > section:not(.hero) {
 }
 
 .card-title {
+  font-family: var(--display);
   font-size: 1.12rem;
-  font-weight: 650;
-  font-stretch: 112%;
+  font-weight: 600;
   letter-spacing: -0.01em;
   margin: 0;
 }
@@ -508,8 +508,8 @@ address {
 
 .email {
   display: inline-block;
-  font-weight: 650;
-  font-stretch: 116%;
+  font-family: var(--display);
+  font-weight: 600;
   font-size: clamp(1.4rem, 4.5vw, 2.4rem);
   letter-spacing: -0.01em;
   line-height: 1.2;
