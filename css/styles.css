@@ -804,12 +804,24 @@ address {
   }
 
   .r-sec {
-    margin-top: 1.4rem;
-    padding-top: 0.9rem;
+    margin-top: 1rem;
+    padding-top: 0.7rem;
     border-color: #ddd;
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: 1.2rem;
+  }
+
+  .r-head {
+    border-color: #000;
+  }
+
+  .chips li {
+    border-color: #bbb;
+    background: #fff;
   }
 
   .r-sec h2,
+  .r-role,
   a {
     color: #000;
   }
