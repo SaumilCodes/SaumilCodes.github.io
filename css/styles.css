@@ -291,6 +291,13 @@ main > section:not(.hero) {
   padding-top: 0.25rem;
 }
 
+.num {
+  display: block;
+  color: var(--accent);
+  font-weight: 500;
+  margin-bottom: 0.2rem;
+}
+
 .section-body p {
   max-width: 62ch;
   margin: 0;
