@@ -248,20 +248,30 @@ a:hover {
   }
 }
 
-.hero > * {
+.hero-grid {
+  display: grid;
+  gap: 2.2rem;
+  align-items: center;
+}
+
+.hero-grid > * {
   animation: rise 0.5s ease both;
 }
 
-.hero > *:nth-child(2) {
-  animation-delay: 0.1s;
+.hero-grid > *:nth-child(2) {
+  animation-delay: 0.15s;
 }
 
-.hero > *:nth-child(3) {
-  animation-delay: 0.2s;
-}
-
-.hero > *:nth-child(4) {
-  animation-delay: 0.3s;
+.portrait {
+  width: min(320px, 80vw);
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: 50% 22%;
+  border-radius: 14px;
+  border: 1px solid var(--line-strong);
+  filter: contrast(1.05) saturate(1.06) brightness(1.04);
+  justify-self: center;
+  box-shadow: 0 10px 26px rgba(22, 24, 29, 0.1);
 }
 
 .eyebrow {
@@ -638,6 +648,12 @@ address {
   word-break: break-word;
 }
 
+.phone {
+  margin-top: 0.7rem;
+  font-family: var(--mono);
+  font-size: 0.95rem;
+}
+
 .contact-links {
   list-style: none;
   margin: 1.8rem 0 0;
@@ -682,6 +698,10 @@ address {
   .section-grid {
     grid-template-columns: 150px minmax(0, 1fr);
     gap: 2.5rem;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1.2fr 0.8fr;
   }
 }
 
