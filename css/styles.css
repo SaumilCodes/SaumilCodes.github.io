@@ -282,6 +282,18 @@ h1 {
   color: var(--accent);
 }
 
+.h1-accent::after {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 0.85em;
+  margin-left: 0.1em;
+  background: var(--accent);
+  vertical-align: -0.04em;
+  opacity: 0;
+  animation: blink 1.2s steps(2, start) infinite;
+}
+
 .lede {
   font-size: 1.15rem;
   max-width: 56ch;
@@ -949,5 +961,10 @@ address {
   * {
     transition: none !important;
     animation: none !important;
+  }
+
+  /* without the animation the typed lines would stay at width zero */
+  .line {
+    width: auto;
   }
 }
