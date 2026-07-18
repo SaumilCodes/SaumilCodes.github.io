@@ -16,8 +16,9 @@
   --line: #e2e5de;         
   --line-strong: #ced3c9;  
 
-  --sans: "Archivo", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --display: "Space Grotesk", "Segoe UI", Arial, sans-serif;
+  --sans: "Inter", -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
 /* dark theme, follows the device setting */
