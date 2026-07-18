@@ -127,7 +127,7 @@ a:hover {
 }
 
 .brand-dot {
-  color: var(--wip);
+  color: var(--accent);
 }
 
 .nav-links {
@@ -172,18 +172,6 @@ a:hover {
 
 .page {
   position: relative;
-}
-
-/* The signature: a thin red margin rule, like a ruled notebook */
-.page::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: clamp(0.45rem, 1.6vw, 1.1rem);
-  width: 1px;
-  background: var(--wip);
-  opacity: 0.8;
 }
 
 /* Hero */
