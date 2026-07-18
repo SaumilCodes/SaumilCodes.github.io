@@ -401,6 +401,60 @@ main > section:not(.hero) {
   font-weight: 500;
 }
 
+/* the editor window, always dark like a real one */
+
+.editor {
+  margin-top: 1.6rem;
+  max-width: 460px;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.editor-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.9rem;
+  background: #1d2028;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.dot-r {
+  background: #e0655f;
+}
+
+.dot-y {
+  background: #e3b341;
+}
+
+.dot-g {
+  background: #57ab5a;
+}
+
+.editor-title {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: #8b93a5;
+  margin: 0 0 0 0.5rem;
+}
+
+.editor-body {
+  margin: 0;
+  padding: 1rem 1.1rem 1.2rem;
+  background: #14161c;
+  color: #d7dae3;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  line-height: 1.8;
+  overflow-x: auto;
+}
+
 /* Skills */
 
 .skill-groups {
