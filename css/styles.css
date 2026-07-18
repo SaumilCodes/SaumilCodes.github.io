@@ -21,21 +21,6 @@
   --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
-/* dark theme, follows the device setting */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #15181e;
-    --card: #1c212b;
-    --ink: #e6e9ef;
-    --muted: #9aa3b0;
-    --accent: #8aa3e8;
-    --accent-deep: #a9bcf0;
-    --wip: #d97f79;
-    --line: #262c37;
-    --line-strong: #343c4a;
-  }
-}
-
 /* theme toggle, no javascript
    the checkbox sits at the top of the body, this rule flips the tokens
    when it is checked. resets on reload, that is the tradeoff. */
