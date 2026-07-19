@@ -563,6 +563,12 @@ main > section:not(.hero) {
   background: var(--card);
   border: 1px solid var(--line-strong);
   border-radius: 4px;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.chips li:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
 }
 
 /* Certificates */
@@ -586,11 +592,12 @@ main > section:not(.hero) {
   align-items: center;
   gap: 1rem;
   flex-wrap: wrap;
-  transition: border-color 0.15s ease;
+  transition: border-color 0.15s ease, transform 0.15s ease;
 }
 
 .cert:hover {
   border-color: var(--accent);
+  transform: translateX(4px);
 }
 
 .cert-name {
