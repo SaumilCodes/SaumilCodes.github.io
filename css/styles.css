@@ -884,6 +884,31 @@ address {
   position: absolute;
 }
 
+.av-face {
+  left: 2.1em;
+  top: 2.2em;
+  width: 5.8em;
+  height: 6.1em;
+  background: #e9b68c;
+  border-radius: 47% 47% 44% 44%;
+}
+
+.av-ear {
+  top: 2.6em;
+  width: 0.9em;
+  height: 1.5em;
+  background: #e9b68c;
+  border-radius: 50%;
+}
+
+.av-ear-l {
+  left: -0.4em;
+}
+
+.av-ear-r {
+  right: -0.4em;
+}
+
 /* Footer */
 
 .site-foot {
