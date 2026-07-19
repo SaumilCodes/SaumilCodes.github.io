@@ -332,6 +332,14 @@ h1 {
   color: var(--bg);
 }
 
+.hero-links a:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.theme-toggle:active {
+  transform: scale(0.95);
+}
+
 /* Sections */
 
 main > section:not(.hero) {
