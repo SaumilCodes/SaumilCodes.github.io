@@ -782,8 +782,26 @@ address {
 }
 
 .r-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
   padding-bottom: 1.1rem;
   border-bottom: 2px solid var(--ink);
+}
+
+.say-hi {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.say-hi .note {
+  margin-top: 0;
+}
+
+.hero .avatar-big {
+  margin-bottom: 1.4rem;
 }
 
 .r-name {
