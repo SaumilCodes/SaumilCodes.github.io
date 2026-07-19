@@ -936,6 +936,33 @@ address {
   transform: rotate(6deg);
 }
 
+.av-eye {
+  top: 3.15em;
+  width: 0.62em;
+  height: 0.7em;
+  background: #241b16;
+  border-radius: 50%;
+}
+
+.av-eye-l {
+  left: 1.3em;
+}
+
+.av-eye-r {
+  right: 1.3em;
+}
+
+.av-smile {
+  bottom: 0.75em;
+  left: 50%;
+  margin-left: -0.85em;
+  width: 1.7em;
+  height: 0.8em;
+  border: 0.24em solid transparent;
+  border-bottom-color: #b9674a;
+  border-radius: 50%;
+}
+
 /* Footer */
 
 .site-foot {
