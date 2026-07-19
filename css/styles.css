@@ -160,6 +160,9 @@ a:hover {
 }
 
 .brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   font-family: var(--display);
   font-weight: 700;
   font-size: 1.15rem;
