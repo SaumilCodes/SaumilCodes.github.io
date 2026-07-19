@@ -963,6 +963,35 @@ address {
   border-radius: 50%;
 }
 
+.av-neck {
+  left: 4em;
+  bottom: 1.3em;
+  width: 2em;
+  height: 1.8em;
+  background: #dda57c;
+}
+
+.av-jacket {
+  left: 0.7em;
+  bottom: -0.5em;
+  width: 8.6em;
+  height: 3.1em;
+  border-radius: 42% 42% 0 0;
+  background:
+    repeating-linear-gradient(0deg, rgba(99, 138, 150, 0.28) 0 0.14em, transparent 0.14em 0.75em),
+    repeating-linear-gradient(90deg, rgba(99, 138, 150, 0.28) 0 0.14em, transparent 0.14em 0.75em),
+    #222b31;
+}
+
+.av-collar {
+  left: 3.8em;
+  bottom: 2.1em;
+  width: 2.4em;
+  height: 0.9em;
+  background: #1c2230;
+  border-radius: 0.3em 0.3em 0 0;
+}
+
 /* Footer */
 
 .site-foot {
