@@ -909,6 +909,33 @@ address {
   right: -0.4em;
 }
 
+.av-hair {
+  left: -0.3em;
+  top: -0.5em;
+  width: 6.4em;
+  height: 2.7em;
+  background: #241b16;
+  border-radius: 3em 3.2em 40% 45%;
+}
+
+.av-brow {
+  top: 2.55em;
+  width: 1.1em;
+  height: 0.28em;
+  background: #241b16;
+  border-radius: 1em;
+}
+
+.av-brow-l {
+  left: 1.05em;
+  transform: rotate(-6deg);
+}
+
+.av-brow-r {
+  right: 1.05em;
+  transform: rotate(6deg);
+}
+
 /* Footer */
 
 .site-foot {
