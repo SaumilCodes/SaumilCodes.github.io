@@ -865,6 +865,25 @@ address {
   }
 }
 
+/* the avatar, drawn entirely in css
+   sized in em so font-size scales the whole face */
+
+.avatar {
+  display: inline-block;
+  position: relative;
+  flex: none;
+  width: 10em;
+  height: 10em;
+  font-size: 10px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #8f7bff, #6d5ae6);
+  overflow: hidden;
+}
+
+.avatar span {
+  position: absolute;
+}
+
 /* Footer */
 
 .site-foot {
