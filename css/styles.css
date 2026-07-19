@@ -260,6 +260,12 @@ a:hover {
   filter: contrast(1.05) saturate(1.06) brightness(1.04);
   justify-self: center;
   box-shadow: 0 10px 26px rgba(22, 24, 29, 0.1);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.portrait:hover {
+  transform: scale(1.015) rotate(-0.5deg);
+  box-shadow: 0 14px 32px rgba(22, 24, 29, 0.14);
 }
 
 .eyebrow {
