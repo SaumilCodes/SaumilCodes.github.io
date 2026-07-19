@@ -687,6 +687,13 @@ main > section:not(.hero) {
   height: 7px;
   border-radius: 50%;
   background: var(--accent);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.35;
+  }
 }
 
 .status.wip::before {
@@ -751,6 +758,11 @@ main > section:not(.hero) {
   border-radius: 50%;
   background: var(--accent);
   transform: translateY(-1px);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+.now-dot.next {
+  animation: none;
 }
 
 .now-dot.next {
