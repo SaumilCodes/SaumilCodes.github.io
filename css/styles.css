@@ -992,6 +992,64 @@ address {
   border-radius: 0.3em 0.3em 0 0;
 }
 
+.av-eye {
+  animation: av-blink 5.2s ease-in-out infinite;
+}
+
+@keyframes av-blink {
+  0%,
+  91%,
+  100% {
+    transform: scaleY(1);
+  }
+  94% {
+    transform: scaleY(0.15);
+  }
+}
+
+.av-smile {
+  transition: width 0.2s ease, margin-left 0.2s ease;
+}
+
+.avatar:hover .av-smile {
+  width: 2.05em;
+  margin-left: -1.02em;
+}
+
+/* sizes for the places he shows up */
+
+.avatar-nav {
+  font-size: 3.4px;
+}
+
+.avatar-mid {
+  font-size: 7px;
+}
+
+.avatar-big {
+  font-size: 11px;
+}
+
+.avatar-resume {
+  font-size: 6.5px;
+}
+
+/* the 404 face, not his best day */
+
+.avatar-lost .av-smile {
+  border: none;
+  background: #b9674a;
+  width: 1.5em;
+  height: 0.26em;
+  border-radius: 1em;
+  margin-left: -0.75em;
+  bottom: 1em;
+}
+
+.avatar-lost .av-brow-l {
+  transform: rotate(-16deg) translateY(-0.12em);
+}
+
 /* Footer */
 
 .site-foot {
