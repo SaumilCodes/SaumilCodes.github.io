@@ -765,42 +765,6 @@ main > section:target .label {
   gap: 0.9rem;
 }
 
-/* Now */
-
-.now-list {
-  list-style: none;
-  margin: 1.2rem 0 0;
-  padding: 0;
-  display: grid;
-  gap: 0.7rem;
-  max-width: 560px;
-}
-
-.now-list li {
-  display: flex;
-  align-items: baseline;
-  gap: 0.7rem;
-}
-
-.now-dot {
-  flex: none;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent);
-  transform: translateY(-1px);
-  animation: pulse 2.4s ease-in-out infinite;
-}
-
-.now-dot.next {
-  animation: none;
-}
-
-.now-dot.next {
-  background: transparent;
-  border: 2px solid var(--muted);
-}
-
 /* Contact */
 
 address {
