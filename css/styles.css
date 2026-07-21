@@ -351,6 +351,49 @@ h1 {
   transform: scale(0.95);
 }
 
+/* At a glance */
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.8rem 1rem;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  animation: rise 0.5s ease both;
+}
+
+.stat:nth-child(2) {
+  animation-delay: 0.08s;
+}
+
+.stat:nth-child(3) {
+  animation-delay: 0.16s;
+}
+
+.stat:nth-child(4) {
+  animation-delay: 0.24s;
+}
+
+.stat-num {
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 7vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.stat-label {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
 /* Sections */
 
 main > section:not(.hero) {
@@ -972,6 +1015,17 @@ address {
   .skill-groups {
     grid-template-columns: 1fr 1fr;
     gap: 2rem;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 0;
+  }
+
+  /* a hairline divider between each number on wider screens */
+  .stat + .stat {
+    padding-left: 2rem;
+    border-left: 1px solid var(--line);
   }
 }
 
