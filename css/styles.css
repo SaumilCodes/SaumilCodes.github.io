@@ -45,34 +45,61 @@ html:has(.theme-box:checked) {
 
 .theme-toggle {
   cursor: pointer;
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
-  border: 1px solid var(--line-strong);
+  display: inline-flex;
+  align-items: center;
+}
+
+.toggle-track {
+  position: relative;
+  width: 54px;
+  height: 28px;
   border-radius: 999px;
-  padding: 0.35em 0.9em;
+  background: var(--line);
+  border: 1px solid var(--line-strong);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 7px;
+  transition: background 0.2s ease, border-color 0.2s ease;
 }
 
-.theme-toggle:hover {
+.theme-toggle:hover .toggle-track {
   border-color: var(--accent);
-  color: var(--accent);
 }
 
-.t-light {
-  display: none;
+.toggle-icon {
+  font-size: 0.74rem;
+  line-height: 1;
+  z-index: 1;
 }
 
-html:has(.theme-box:checked) .t-light {
-  display: inline;
+.toggle-sun {
+  color: #e0a13c;
 }
 
-html:has(.theme-box:checked) .t-dark {
-  display: none;
+.toggle-moon {
+  color: #8a93a8;
 }
 
-html:has(.theme-box:focus-visible) .theme-toggle {
+.toggle-knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--card);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+  transition: transform 0.22s ease;
+}
+
+/* the checkbox sits at body top, the header is a later sibling,
+   so the knob slides via a sibling selector, no :has needed here */
+.theme-box:checked ~ .site-head .toggle-knob {
+  transform: translateX(26px);
+}
+
+.theme-box:focus-visible ~ .site-head .toggle-track {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
@@ -347,7 +374,7 @@ h1 {
   transform: translateY(1px) scale(0.98);
 }
 
-.theme-toggle:active {
+.theme-toggle:active .toggle-track {
   transform: scale(0.95);
 }
 
