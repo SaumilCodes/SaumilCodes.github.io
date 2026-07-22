@@ -206,6 +206,23 @@ a:hover {
   color: var(--accent);
 }
 
+/* the name shimmers, a moving gradient clipped to the text */
+.brand-name {
+  background: linear-gradient(100deg, var(--accent), #b9aaff, var(--accent-deep, var(--accent)), var(--accent));
+  background-size: 220% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: shimmer 5s linear infinite;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: 220% center;
+  }
+}
+
 .nav-links {
   list-style: none;
   margin: 0;
