@@ -771,6 +771,38 @@ main > section:target .label {
   transform: scaleX(1);
 }
 
+/* the featured card spans the whole row and stands out */
+.card.featured {
+  grid-column: 1 / -1;
+  padding: 1.9rem;
+  border-color: var(--accent);
+  background:
+    linear-gradient(160deg, rgba(109, 90, 230, 0.08), transparent 55%),
+    var(--card);
+}
+
+.card.featured::before {
+  transform: scaleX(1);
+}
+
+.featured-tag {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0;
+}
+
+.card.featured .card-title {
+  font-size: clamp(1.35rem, 3.5vw, 1.9rem);
+}
+
+.card.featured > p {
+  font-size: 1.02rem;
+  max-width: 62ch;
+}
+
 .card-top {
   display: flex;
   justify-content: space-between;
