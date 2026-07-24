@@ -15,6 +15,7 @@
   --accent-deep: #1e2fac;
   --wip: #e0512f;
   --line: #16130d;
+  --dot: rgba(22, 19, 13, 0.055);
 
   --shadow: 5px 5px 0 var(--ink);
   --shadow-lg: 8px 8px 0 var(--ink);
@@ -44,6 +45,7 @@ html:has(.theme-box:checked) {
   --accent-deep: #a3acff;
   --wip: #ef7a5a;
   --line: #efe9dc;
+  --dot: rgba(239, 233, 220, 0.05);
   --shadow: 5px 5px 0 var(--line);
   --shadow-lg: 8px 8px 0 var(--line);
   --shadow-press: 2px 2px 0 var(--line);
@@ -61,7 +63,9 @@ html {
 
 body {
   margin: 0;
-  background: var(--paper);
+  background-color: var(--paper);
+  background-image: radial-gradient(var(--dot) 1.2px, transparent 1.2px);
+  background-size: 24px 24px;
   color: var(--ink);
   font-family: var(--body);
   font-size: 1.0625rem;
@@ -369,6 +373,7 @@ h1 {
   color: #fff;
   padding: 0 0.12em;
   transform: rotate(-1.5deg);
+  box-shadow: 4px 4px 0 var(--ink);
 }
 
 .lede {
@@ -453,6 +458,19 @@ h1 {
 
 .stat:nth-child(4) {
   animation-delay: 0.24s;
+}
+
+/* alternate boxes are filled for rhythm */
+.stat:nth-child(even) {
+  background: var(--accent);
+}
+
+.stat:nth-child(even) .stat-num {
+  color: #fff;
+}
+
+.stat:nth-child(even) .stat-label {
+  color: rgba(255, 255, 255, 0.82);
 }
 
 .stat-num {
@@ -789,6 +807,10 @@ main > section:target .label {
   grid-column: 1 / -1;
   padding: 1.9rem;
   box-shadow: 8px 8px 0 var(--accent);
+}
+
+.card.featured:hover {
+  box-shadow: 11px 11px 0 var(--accent);
 }
 
 .featured-tag {
