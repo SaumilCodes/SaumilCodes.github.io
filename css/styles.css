@@ -13,9 +13,10 @@
   --muted: #6b6456;
   --accent: #2f43e0;
   --accent-deep: #1e2fac;
+  --amber: #f7c02e;
   --wip: #e0512f;
   --line: #16130d;
-  --dot: rgba(22, 19, 13, 0.055);
+  --dot: rgba(22, 19, 13, 0.13);
 
   --shadow: 5px 5px 0 var(--ink);
   --shadow-lg: 8px 8px 0 var(--ink);
@@ -43,9 +44,10 @@ html:has(.theme-box:checked) {
   --muted: #9a9280;
   --accent: #7f8bff;
   --accent-deep: #a3acff;
+  --amber: #f0bc3a;
   --wip: #ef7a5a;
   --line: #efe9dc;
-  --dot: rgba(239, 233, 220, 0.05);
+  --dot: rgba(239, 233, 220, 0.1);
   --shadow: 5px 5px 0 var(--line);
   --shadow-lg: 8px 8px 0 var(--line);
   --shadow-press: 2px 2px 0 var(--line);
@@ -460,17 +462,26 @@ h1 {
   animation-delay: 0.24s;
 }
 
-/* alternate boxes are filled for rhythm */
-.stat:nth-child(even) {
+/* every other box is filled, so the band has rhythm */
+.stat:nth-child(2) {
   background: var(--accent);
 }
 
-.stat:nth-child(even) .stat-num {
+.stat:nth-child(2) .stat-num {
   color: #fff;
 }
 
-.stat:nth-child(even) .stat-label {
-  color: rgba(255, 255, 255, 0.82);
+.stat:nth-child(2) .stat-label {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.stat:nth-child(4) {
+  background: var(--amber);
+}
+
+.stat:nth-child(4) .stat-num,
+.stat:nth-child(4) .stat-label {
+  color: #16130d;
 }
 
 .stat-num {
@@ -490,6 +501,41 @@ h1 {
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--muted);
+}
+
+/* the scrolling band, two copies of the same line chasing each other */
+
+.marquee {
+  overflow: hidden;
+  background: var(--accent);
+  border-bottom: 3px solid var(--ink);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: slide 26s linear infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.marquee-text {
+  margin: 0;
+  padding-block: 0.6rem;
+  white-space: nowrap;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  color: #fff;
+}
+
+@keyframes slide {
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 /* sections */
@@ -530,6 +576,14 @@ main > section:target .label {
   box-shadow: var(--shadow-press);
   padding: 0.1em 0.45em;
   font-size: 0.9rem;
+}
+
+/* every other section badge is amber so the rail alternates */
+#education .num,
+#certificates .num,
+#contact .num {
+  background: var(--amber);
+  color: var(--ink);
 }
 
 .section-body p {
@@ -788,6 +842,8 @@ main > section:target .label {
 }
 
 .card {
+  position: relative;
+  overflow: hidden;
   background: var(--card);
   border: 2px solid var(--ink);
   box-shadow: var(--shadow);
@@ -796,6 +852,26 @@ main > section:target .label {
   flex-direction: column;
   gap: 0.7rem;
   transition: transform 0.14s ease, box-shadow 0.14s ease;
+}
+
+/* a big ghost numeral sitting in the corner of each card */
+.card-index {
+  position: absolute;
+  right: -0.12em;
+  bottom: -0.34em;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 7rem;
+  line-height: 1;
+  color: var(--ink);
+  opacity: 0.07;
+  pointer-events: none;
+}
+
+.card.featured .card-index {
+  font-size: 10rem;
+  color: var(--accent);
+  opacity: 0.14;
 }
 
 .card:hover {
@@ -918,6 +994,25 @@ main > section:target .label {
 
 /* contact */
 
+.shout {
+  font-size: clamp(3.2rem, 13vw, 7rem);
+  font-weight: 800;
+  line-height: 0.86;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  margin-bottom: 1.6rem;
+}
+
+.shout::after {
+  content: "";
+  display: block;
+  width: 3.5rem;
+  height: 0.55rem;
+  margin-top: 1rem;
+  background: var(--amber);
+  border: 2px solid var(--ink);
+}
+
 .say-hi {
   display: flex;
   align-items: center;
@@ -948,11 +1043,12 @@ address {
   word-break: break-word;
   color: var(--ink);
   text-decoration: none;
-  border-bottom: 3px solid var(--accent);
+  border-bottom: 6px solid var(--amber);
 }
 
 .email:hover {
   color: var(--accent-deep);
+  border-bottom-color: var(--accent);
 }
 
 .phone {
