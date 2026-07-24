@@ -329,12 +329,20 @@ a:hover {
   padding-block: clamp(2.6rem, 7vw, 4.5rem);
 }
 
-.hero-grid > * {
+.hero-text > * {
   animation: rise 0.5s ease both;
 }
 
-.hero-grid > *:nth-child(2) {
-  animation-delay: 0.12s;
+.hero-text > *:nth-child(2) {
+  animation-delay: 0.08s;
+}
+
+.hero-text > *:nth-child(3) {
+  animation-delay: 0.16s;
+}
+
+.hero-text > *:nth-child(4) {
+  animation-delay: 0.24s;
 }
 
 .eyebrow {
@@ -390,10 +398,20 @@ h1 {
   box-shadow: var(--shadow-lg);
   transform: rotate(-2deg);
   transition: transform 0.2s ease;
+  animation: fade 0.6s ease both;
 }
 
 .portrait-frame:hover {
   transform: rotate(0deg);
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .portrait {
@@ -474,6 +492,10 @@ main > section:target .label {
 }
 
 .label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
   font-family: var(--mono);
   font-size: 0.78rem;
   font-weight: 700;
@@ -484,8 +506,6 @@ main > section:target .label {
 }
 
 .num {
-  display: inline-block;
-  margin-bottom: 0.5rem;
   background: var(--accent);
   color: #fff;
   border: 2px solid var(--ink);
