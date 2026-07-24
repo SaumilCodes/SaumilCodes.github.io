@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=3">
+  <link rel="stylesheet" href="css/styles.css?v=4">
 </head>
 <body>
 
@@ -44,10 +44,10 @@
     </div>
   </header>
 
-  <div class="container page" id="top">
+  <div class="page" id="top">
     <main id="main">
       <section class="hero" aria-label="Introduction">
-        <div class="hero-grid">
+        <div class="container hero-grid">
           <div class="hero-text">
             <p class="eyebrow">B.Tech CSE (Core) ’29 · JUIT, Himachal Pradesh</p>
             <h1>Learning the web <span class="h1-accent">by&nbsp;hand.</span></h1>
@@ -70,7 +70,7 @@
 
       <!-- At a glance -->
       <section class="stats" aria-label="At a glance">
-        <div class="stats-grid">
+        <div class="container stats-grid">
           <div class="stat">
             <span class="stat-num">2nd</span>
             <span class="stat-label">Year, B.Tech CSE</span>
@@ -102,7 +102,7 @@
       <section id="about" class="section-grid" aria-labelledby="about-label">
         <h2 class="label" id="about-label"><span class="num">01</span>About</h2>
         <div class="section-body">
-          <p>
+          <p class="lead-para">
             I started at JUIT in 2025. First semester was C and how memory
             works, second semester brought object oriented programming in C++,
             classes, inheritance, and the first data structures. This summer I
@@ -110,20 +110,48 @@
             CSS layouts that don’t fall apart the moment someone opens them on
             a phone.
           </p>
-          <p>
-            This site is part of that practice. No frameworks and no template,
-            just one HTML file and one stylesheet written by hand. Everything I
-            make goes up on GitHub, partly for my university’s summer training
-            and mostly because building in public keeps me honest.
-          </p>
-          <div class="editor" aria-hidden="true">
-            <div class="editor-bar">
-              <span class="dot dot-r"></span>
-              <span class="dot dot-y"></span>
-              <span class="dot dot-g"></span>
-              <p class="editor-title">index.html</p>
+
+          <blockquote class="pull-quote">
+            No frameworks. No template. One HTML file, one stylesheet, written by hand.
+          </blockquote>
+
+          <!-- tabs made from radio buttons, no javascript -->
+          <div class="tabs">
+            <input type="radio" name="about-tab" id="tab-story" checked>
+            <input type="radio" name="about-tab" id="tab-tools">
+            <input type="radio" name="about-tab" id="tab-next">
+
+            <div class="tab-row">
+              <label class="tab" for="tab-story">Story</label>
+              <label class="tab" for="tab-tools">Toolkit</label>
+              <label class="tab" for="tab-next">What’s next</label>
             </div>
-            <pre class="editor-body"><code><span class="line l1">&lt;section class="about"&gt;</span><span class="line l2">  &lt;h2&gt;Written by hand&lt;/h2&gt;</span><span class="line l3">  &lt;p&gt;No frameworks here.&lt;/p&gt;</span><span class="line l4">&lt;/section&gt;</span></code></pre>
+
+            <div class="tab-panels">
+              <div class="panel panel-story">
+                <p>
+                  Everything I make goes up on GitHub, partly for my
+                  university’s summer training and mostly because building in
+                  public keeps me honest. If a layout breaks on a phone, the
+                  commit history shows me fixing it.
+                </p>
+              </div>
+              <div class="panel panel-tools">
+                <ul class="tool-list">
+                  <li><strong>Semantic HTML</strong> so the page still makes sense without any styling</li>
+                  <li><strong>CSS Grid and Flexbox</strong> for every layout on this site</li>
+                  <li><strong>Custom properties</strong> to drive the whole colour theme from one place</li>
+                  <li><strong>Git and GitHub</strong> for versions and for hosting this page</li>
+                </ul>
+              </div>
+              <div class="panel panel-next">
+                <p>
+                  JavaScript is the next thing on the list, so these panels can
+                  eventually remember which one you picked. After that, more data
+                  structures in C++ and a third project bigger than this one.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -266,13 +294,15 @@
       </section>
 
     </main>
+  </div>
 
-    <footer class="site-foot">
+  <footer class="site-foot">
+    <div class="container foot-inner">
       <p>© 2026 Saumil</p>
       <p>Written by hand with HTML and CSS, no frameworks.</p>
       <a href="#top">Back to top ↑</a>
-    </footer>
-  </div>
+    </div>
+  </footer>
 
 </body>
 </html>
