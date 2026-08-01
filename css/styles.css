@@ -912,6 +912,10 @@ main > section:target .label {
   box-shadow: var(--shadow-lg);
 }
 
+.card.wide {
+  grid-column: 1 / -1;
+}
+
 .card.featured {
   grid-column: 1 / -1;
   padding: 1.9rem;
