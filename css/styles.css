@@ -83,6 +83,7 @@ h3 {
   font-weight: 700;
   line-height: 1.05;
   margin: 0;
+  text-wrap: balance;
 }
 
 p {
