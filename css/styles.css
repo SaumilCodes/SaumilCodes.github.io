@@ -619,6 +619,12 @@ main > section:target .label {
   box-shadow: var(--shadow);
   padding: 1.3rem 1.5rem;
   max-width: 640px;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.edu:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 var(--accent);
 }
 
 .edu-top {
