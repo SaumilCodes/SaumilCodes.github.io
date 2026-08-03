@@ -827,16 +827,47 @@ main > section:target .label {
 
 .skill-groups {
   display: grid;
-  gap: 1.8rem;
+  gap: 1.1rem;
   margin-top: 1.5rem;
 }
 
+.skill-card {
+  background: var(--card);
+  border: 2px solid var(--ink);
+  box-shadow: var(--shadow);
+  padding: 1.1rem 1.25rem 1.25rem;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.skill-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 7px 7px 0 var(--accent);
+}
+
+.skill-card-next {
+  background: var(--amber);
+}
+
 .skill-groups h3 {
-  font-size: 1.05rem;
+  font-size: 0.78rem;
+  font-family: var(--mono);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
-  margin: 0 0 0.8rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  margin: 0 0 0.85rem;
+}
+
+.skill-card-next h3 {
+  color: var(--ink);
+}
+
+.skill-card .chips li {
+  background: var(--paper);
+}
+
+.skill-card-next .chips li {
+  background: var(--card);
 }
 
 .chips {
