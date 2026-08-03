@@ -627,6 +627,47 @@ main > section:target .label {
   box-shadow: 7px 7px 0 var(--accent);
 }
 
+/* semester timeline */
+
+.timeline {
+  list-style: none;
+  max-width: 640px;
+  margin: 1.6rem 0 0;
+  padding: 0.2rem 0 0.2rem 1.7rem;
+  border-left: 2px solid var(--ink);
+  display: grid;
+  gap: 1.15rem;
+}
+
+.timeline li {
+  position: relative;
+}
+
+.timeline li::before {
+  content: "";
+  position: absolute;
+  left: calc(-1.7rem - 8px);
+  top: 0.3rem;
+  width: 12px;
+  height: 12px;
+  background: var(--bg);
+  border: 2px solid var(--ink);
+}
+
+.timeline li:last-child::before {
+  background: var(--amber);
+}
+
+.tl-when {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.3rem;
+}
+
 .edu-top {
   display: flex;
   justify-content: space-between;
