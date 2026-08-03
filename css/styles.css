@@ -903,20 +903,19 @@ main > section:target .label {
   margin: 1.5rem 0 0;
   padding: 0;
   display: grid;
-  gap: 1rem;
-  max-width: 640px;
+  gap: 1.1rem;
+  max-width: 900px;
 }
 
 .cert {
   background: var(--card);
   border: 2px solid var(--ink);
   box-shadow: var(--shadow);
-  padding: 1rem 1.35rem;
+  padding: 1.3rem 1.4rem 1.4rem;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.55rem;
   transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 
@@ -934,13 +933,27 @@ main > section:target .label {
 .cert-issuer {
   font-family: var(--mono);
   font-size: 0.72rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0;
+}
+
+.cert-covers {
+  margin: 0;
+  font-size: 0.94rem;
   color: var(--muted);
-  margin: 0.2rem 0 0;
+}
+
+.cert-year {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin: 0;
 }
 
 .cert-link {
-  font-family: var(--mono);
-  font-size: 0.78rem;
+  margin-top: 0.35rem;
   white-space: nowrap;
 }
 
@@ -1324,7 +1337,11 @@ address {
 @media (min-width: 600px) {
   .skill-groups {
     grid-template-columns: 1fr 1fr;
-    gap: 2rem;
+    gap: 1.4rem;
+  }
+
+  .cert-list {
+    grid-template-columns: 1fr 1fr;
   }
 
   .stats-grid {
