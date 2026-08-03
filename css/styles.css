@@ -650,7 +650,7 @@ main > section:target .label {
   top: 0.3rem;
   width: 12px;
   height: 12px;
-  background: var(--bg);
+  background: var(--paper);
   border: 2px solid var(--ink);
 }
 
