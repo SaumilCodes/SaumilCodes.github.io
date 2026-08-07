@@ -1103,13 +1103,6 @@ main > section:target .label {
   gap: 1rem;
 }
 
-.tags {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  color: var(--muted);
-  margin: 0;
-}
-
 .card-link {
   font-family: var(--mono);
   font-size: 0.78rem;
