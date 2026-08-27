@@ -389,17 +389,6 @@
       <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
     </div>
   </footer>
-<script>
-  (function () {
-    var box = document.getElementById('theme-switch');
-    if (!box) return;
-    var saved = localStorage.getItem('theme');
-    if (saved === 'dark') box.checked = true;
-    box.addEventListener('change', function () {
-      localStorage.setItem('theme', box.checked ? 'dark' : 'light');
-    });
-  })();
-</script>
   
 </body>
 </html>
