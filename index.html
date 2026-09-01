@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light">
+  <script>try{if(localStorage.getItem("theme")==="dark")document.documentElement.dataset.theme="dark";}catch(e){}</script>
   <meta name="theme-color" content="#f2ede1">
   <title>Saumil · CS student</title>
   <meta name="description" content="Personal site of Saumil, a second-year computer science student at JUIT learning front-end development. Built with HTML and CSS.">
@@ -24,7 +25,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=15">
+  <link rel="stylesheet" href="css/styles.css?v=16">
 
   <!-- Tells search engines who this page is about, rather than leaving
        them to guess it from the prose. -->
@@ -57,6 +58,7 @@
 <body>
 
   <input type="checkbox" id="theme-switch" class="theme-box">
+  <script>(function(){var b=document.getElementById("theme-switch");if(!b)return;try{if(localStorage.getItem("theme")==="dark")b.checked=true;}catch(e){}b.addEventListener("change",function(){var m=b.checked?"dark":"light";document.documentElement.dataset.theme=m;try{localStorage.setItem("theme",m);}catch(e){}});})();</script>
 
   <a class="skip" href="#main">Skip to content</a>
 
@@ -389,6 +391,5 @@
       <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
     </div>
   </footer>
-  
 </body>
 </html>

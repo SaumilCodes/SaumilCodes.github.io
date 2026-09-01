@@ -27,16 +27,19 @@
   --mono: "Space Mono", ui-monospace, Menlo, Consolas, monospace;
 }
 
-/* theme toggle, no javascript
+/* theme toggle
    the checkbox sits at body top and flips the tokens when checked.
-   resets on reload, that is the tradeoff of staying pure css. */
+   a data-theme attribute set before first paint carries the choice across
+   pages and reloads. without javascript the checkbox still works, it just
+   forgets on reload. */
 
 .theme-box {
   position: absolute;
   left: -999px;
 }
 
-html:has(.theme-box:checked) {
+html:has(.theme-box:checked),
+html[data-theme="dark"] {
   color-scheme: dark;
   --paper: #16140f;
   --card: #201d16;
