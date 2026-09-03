@@ -473,7 +473,13 @@
        stay welded to the untouched text. A chip of three letters has nobody to
        borrow from: there, let it grow and centre the growth instead, which is
        the same thing a magnifier does to a word on its own. */
-    if (weightSum > 0) {
+    /* A long line pays the borrowed width back across its middle, so both ends
+       stay welded to the text around them. A button or a nav link is only a
+       word: the cursor covers nearly all of it, so the growth and the payback
+       cancel and nothing appears to happen. Nothing shares those lines, so let
+       them keep the width and spread it either side of the middle. */
+    var shortLine = cacheVisible < 12;
+    if (!shortLine && weightSum > 0) {
       var k = -extraSum / weightSum;
       for (var j = 0; j < list.length; j++) raw[j] += k * fall[j] * (1 - fall[j]);
     }
@@ -483,7 +489,9 @@
       off[m] = run;
       run += list[m].w * (raw[m] - 1);
     }
+    var shift = shortLine ? -run / 2 : 0;
     for (var m2 = 0; m2 < list.length; m2++) {
+      off[m2] += shift;
       spans[m2].style.transform =
         "translateX(" + off[m2].toFixed(2) + "px) scale(" + raw[m2].toFixed(4) + ")";
     }
