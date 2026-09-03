@@ -1737,6 +1737,13 @@ address {
   white-space: pre;
   transform-origin: left center;
   will-change: transform;
+  /* every glyph is its own element here, so the browser is free to hint and
+     round each one on its own and letters can drift apart by a fraction. ask
+     for exact metrics instead, and turn off kerning that cannot apply across
+     separate elements anyway. */
+  text-rendering: geometricPrecision;
+  font-kerning: none;
+  font-variant-ligatures: none;
 }
 
 .text-lens-bg {
