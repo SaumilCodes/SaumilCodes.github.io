@@ -36,11 +36,19 @@
     return getComputedStyle(document.body).backgroundColor;
   }
 
-  function hasOwnText(el) {
-    for (var n = el.firstChild; n; n = n.nextSibling) {
-      if (n.nodeType === 3 && n.nodeValue.trim()) return true;
+  /* Climb from the deepest element under the cursor to the block that owns the
+     line. Without this, hovering a <strong> would magnify only the bold words
+     and leave the rest of the sentence flat, which reads as a broken line. */
+  function blockOf(el) {
+    for (var n = el; n && n !== document.body; n = n.parentElement) {
+      var d = getComputedStyle(n).display;
+      if (d !== "inline" && d !== "inline-block" && d !== "inline-flex") return n;
     }
-    return false;
+    return el;
+  }
+
+  function hasText(el) {
+    return !!(el && el.textContent && el.textContent.trim());
   }
 
   /* The line box under the pointer. At line-height 1 a glyph box is taller than
@@ -71,7 +79,8 @@
         if (!b.width && !b.height) continue;
         var cy = b.top + b.height / 2;
         if (cy >= band.top && cy <= band.bottom) {
-          out.push({ ch: t[i], x: b.left, y: b.top, w: b.width, h: b.height });
+          out.push({ ch: t[i], x: b.left, y: b.top, w: b.width, h: b.height,
+                     owner: n.parentElement || el });
         }
       }
     }
@@ -100,36 +109,67 @@
     lens.style.left = minX + "px";
     lens.style.top = band.top + "px";
     /* Without an explicit size the box collapses, the background covers
-       nothing, and the original text shows through under the overlay: every
-       glyph is drawn twice and the row reads as bold. The cover is the line
-       box and never a pixel more, so the row above is left alone. */
+       nothing, and the original shows through under the overlay: every glyph
+       is drawn twice and the row reads as bold. The cover is the line box and
+       never a pixel more, so the row above is left alone. */
     lens.style.width = (maxX - minX) + "px";
     lens.style.height = band.height + "px";
     lens.style.background = bgOf(el);
-    lens.style.fontFamily = cs.fontFamily;
-    lens.style.fontWeight = cs.fontWeight;
-    lens.style.fontStyle = cs.fontStyle;
-    lens.style.fontSize = cs.fontSize;
-    lens.style.fontVariationSettings = cs.fontVariationSettings;
-    lens.style.fontFeatureSettings = cs.fontFeatureSettings;
-    lens.style.letterSpacing = cs.letterSpacing;
-    lens.style.wordSpacing = cs.wordSpacing;
-    lens.style.color = cs.color;
-    /* The character rects were measured from the rendered glyphs, so drawing
-       the raw source text here would be the wrong letters at the wrong widths. */
-    lens.style.textTransform = cs.textTransform;
 
-    spans = list.map(function (c) {
+    /* Styles come from each character's own parent, not from the hovered
+       element. A <strong> inside a list item, the number chip inside a
+       heading, the accent block in the headline: all of them keep their own
+       weight, colour and background this way. */
+    var seen = new Map();
+    function styleOf(node) {
+      var hit = seen.get(node);
+      if (hit) return hit;
+      var d = getComputedStyle(node);
+      var own = {
+        fontFamily: d.fontFamily, fontWeight: d.fontWeight, fontStyle: d.fontStyle,
+        fontSize: d.fontSize, fontVariationSettings: d.fontVariationSettings,
+        fontFeatureSettings: d.fontFeatureSettings, letterSpacing: d.letterSpacing,
+        wordSpacing: d.wordSpacing, color: d.color, textTransform: d.textTransform,
+        textDecoration: d.textDecoration, textDecorationColor: d.textDecorationColor,
+        textDecorationThickness: d.textDecorationThickness,
+        textUnderlineOffset: d.textUnderlineOffset,
+        background: d.backgroundColor
+      };
+      seen.set(node, own);
+      return own;
+    }
+
+    /* A drop cap is a pseudo element, so its size and colour live nowhere in
+       the character's own styles; lift them onto the first glyph by hand. */
+    var firstLetter = null, firstIdx = -1;
+    try {
+      var fl = getComputedStyle(el, "::first-letter");
+      if (fl && fl.fontSize && fl.fontSize !== cs.fontSize) {
+        firstLetter = fl;
+        // the browser applies it to the first real letter, not to the newline
+        // and indentation that markup usually starts a paragraph with
+        for (var q = 0; q < list.length; q++) {
+          if (list[q].ch.trim()) { firstIdx = q; break; }
+        }
+      }
+    } catch (e) {}
+
+    spans = list.map(function (c, idx) {
+      var d = styleOf(c.owner);
       var s = document.createElement("i");
       s.textContent = c.ch;
       s.style.left = (c.x - minX) + "px";
       s.style.top = (c.y - band.top) + "px";
       s.style.height = c.h + "px";
       s.style.lineHeight = c.h + "px";
-      s.style.textDecoration = cs.textDecoration;
-      s.style.textDecorationColor = cs.textDecorationColor;
-      s.style.textDecorationThickness = cs.textDecorationThickness;
-      s.style.textUnderlineOffset = cs.textUnderlineOffset;
+      for (var k in d) if (d[k]) s.style[k] = d[k];
+      if (idx === firstIdx && firstLetter) {
+        s.style.fontSize = firstLetter.fontSize;
+        s.style.fontFamily = firstLetter.fontFamily;
+        s.style.fontWeight = firstLetter.fontWeight;
+        s.style.lineHeight = firstLetter.lineHeight;
+        s.style.color = firstLetter.color;
+      }
       lens.appendChild(s);
       return s;
     });
@@ -162,8 +202,9 @@
     var moving = Math.abs(dx) + Math.abs(dy) > 0.35;
     if (moving) { sx += dx * EASE; sy += dy * EASE; } else { sx = px; sy = py; }
 
-    var el = document.elementFromPoint(sx, sy);
-    var ok = el && !el.closest(".text-lens") && hasOwnText(el);
+    var hit = document.elementFromPoint(sx, sy);
+    var el = hit && !hit.closest(".text-lens") ? blockOf(hit) : null;
+    var ok = el && hasText(el);
     var band = ok ? lineAt(el, sy) : null;
     if (band && hiddenByHeader(el, band)) band = null;
     var sameLine = lens && band && el === cacheEl && Math.abs(band.top - cacheTop) < 0.5;
