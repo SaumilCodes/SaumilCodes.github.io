@@ -1631,3 +1631,20 @@ address {
     inset: -5px -4px;
   }
 }
+
+/* the sticky header on a phone.
+   the three flex children each wrapped onto their own line, so the header
+   ate 165px, a fifth of the screen, permanently. the brand and the toggle
+   are only 220px together, so they share the first row and the links get a
+   full width row underneath. */
+
+@media (max-width: 560px) {
+  .nav > nav {
+    order: 3;
+    flex-basis: 100%;
+  }
+
+  .theme-toggle {
+    order: 2;
+  }
+}
