@@ -1591,3 +1591,20 @@ address {
     animation: none !important;
   }
 }
+
+/* copy the address without leaving the page.
+   hidden until the script confirms the clipboard api exists, so it never
+   sits there dead. */
+
+.copy-email {
+  cursor: pointer;
+  font-size: 0.72rem;
+  padding: 0.45em 0.85em;
+  margin-left: 0.6rem;
+  vertical-align: middle;
+}
+
+.copy-email.is-copied {
+  background: var(--accent);
+  color: var(--paper);
+}

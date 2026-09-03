@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=17">
+  <link rel="stylesheet" href="css/styles.css?v=18">
 
   <!-- Tells search engines who this page is about, rather than leaving
        them to guess it from the prose. -->
@@ -371,7 +371,10 @@
           </div>
           <address>
             <a class="email" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=workwithsaumil@gmail.com" target="_blank" rel="noopener">workwithsaumil@gmail.com</a>
-            <p class="note">The link opens Gmail compose. Copying the address works too.</p>
+            <button class="btn copy-email" type="button" data-email="workwithsaumil@gmail.com" hidden>
+              <span class="copy-label">Copy address</span>
+            </button>
+            <p class="note">The link opens Gmail compose, or copy the address straight to your clipboard.</p>
             <p class="phone"><a href="tel:+916283123143">+91 62831 23143</a></p>
             <ul class="contact-links">
               <li><a href="https://github.com/SaumilCodes" rel="me">GitHub&nbsp;<span aria-hidden="true">↗</span></a></li>
@@ -418,6 +421,39 @@
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     update();
+  })();
+  </script>
+  <script>
+  (function () {
+    var b = document.querySelector(".copy-email");
+    if (!b || !navigator.clipboard) return;
+    var label = b.querySelector(".copy-label"), timer;
+    b.hidden = false;
+    function flash(text) {
+      label.textContent = text;
+      b.classList.add("is-copied");
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        label.textContent = "Copy address";
+        b.classList.remove("is-copied");
+      }, 2000);
+    }
+    b.addEventListener("click", function () {
+      navigator.clipboard.writeText(b.dataset.email).then(function () {
+        flash("Copied");
+      }, function () {
+        // clipboard refused, select the address so ctrl+c still works
+        var link = document.querySelector(".email");
+        if (link) {
+          var range = document.createRange();
+          range.selectNodeContents(link);
+          var sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+        }
+        flash("Press Ctrl+C");
+      });
+    });
   })();
   </script>
 </body>
