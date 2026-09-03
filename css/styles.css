@@ -235,7 +235,7 @@ a:hover {
 
 .nav-links a:hover {
   color: var(--accent-deep);
-  border-bottom-color: var(--accent);
+  text-decoration-color: var(--accent);
 }
 
 .nav-links a[aria-current="page"],
@@ -1183,8 +1183,14 @@ address {
   letter-spacing: -0.01em;
   word-break: break-word;
   color: var(--ink);
-  text-decoration: none;
-  border-bottom: 6px solid var(--amber);
+  /* the amber rule used to be a border on an inline block, so the moment the
+     address wrapped it ran the full width of the box under a two letter last
+     line and read as a stray bar. underlining the text keeps it on the words. */
+  text-decoration: underline;
+  text-decoration-color: var(--amber);
+  text-decoration-thickness: 6px;
+  text-underline-offset: 0.14em;
+  text-decoration-skip-ink: none;
 }
 
 .email:hover {
@@ -1660,5 +1666,24 @@ address {
 
   .theme-toggle {
     order: 2;
+  }
+}
+
+/* the address on a phone.
+   at the shared size it broke across two lines mid word and the copy button
+   sat beside the wrap. smaller type keeps it on one line and the button gets
+   its own row underneath. */
+
+@media (max-width: 560px) {
+  .email {
+    font-size: clamp(0.95rem, 4.15vw, 1.45rem);
+    letter-spacing: -0.02em;
+    text-decoration-thickness: 4px;
+  }
+
+  .copy-email {
+    display: block;
+    width: fit-content;
+    margin: 0.9rem 0 0;
   }
 }
