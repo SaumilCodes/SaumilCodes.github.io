@@ -264,9 +264,28 @@
     chars = list;
   }
 
+  /* The overlay can redraw text. It cannot redraw a border, a shadow or a
+     rounded corner, so on a line that carries any of those it would paint the
+     background flat over the box and hand back only the letters. Buttons,
+     chips and framed labels are left alone rather than damaged. */
+  function decorated(node, stop) {
+    for (var n = node; n && n !== stop && n !== document.body; n = n.parentElement) {
+      var d = getComputedStyle(n);
+      if (parseFloat(d.borderTopWidth) || parseFloat(d.borderRightWidth) ||
+          parseFloat(d.borderBottomWidth) || parseFloat(d.borderLeftWidth)) return true;
+      if (d.boxShadow && d.boxShadow !== "none") return true;
+      if (d.borderTopLeftRadius && parseFloat(d.borderTopLeftRadius) > 0) return true;
+      if (d.outlineStyle && d.outlineStyle !== "none" && parseFloat(d.outlineWidth)) return true;
+    }
+    return false;
+  }
+
   function acquire(el, band) {
     var probe = charsOnLine(el, band);
     if (!probe.length) return false;
+    for (var b2 = 0; b2 < probe.length; b2++) {
+      if (probe[b2].owner !== el && decorated(probe[b2].owner, el)) return false;
+    }
     /* The width gained under the cursor is paid back by the characters around
        it. A line of one or two glyphs, an icon or a chip, has nobody to pay,
        so it would simply grow and shove its own end sideways. Leave it be. */
