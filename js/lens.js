@@ -24,7 +24,7 @@
   var AMP_EASE = 0.26;    // how quickly a row fades in and out
 
   var lens = null, spans = [], chars = [], runs = [];
-  var cacheEl = null, cacheTop = 0, cacheBottom = -1, cacheAvgW = 10;
+  var cacheEl = null, cacheTop = 0, cacheBottom = -1, cacheAvgW = 10, cacheVisible = 0;
   var raf = 0, px = 0, py = 0, sx = 0, sy = 0, running = false;
   var amp = 0, ampTarget = 1, lensLeft = 0;
 
@@ -302,15 +302,13 @@
     for (var b2 = 0; b2 < probe.length; b2++) {
       if (probe[b2].owner !== el && decorated(probe[b2].owner, el)) return false;
     }
-    /* The width gained under the cursor is paid back by the characters around
-       it. A line of one or two glyphs, an icon or a chip, has nobody to pay,
-       so it would simply grow and shove its own end sideways. Leave it be. */
     var visible = 0;
     for (var v = 0; v < probe.length; v++) if (probe[v].ch.trim() && probe[v].w > 0) visible++;
-    if (visible < 4) return false;
+    if (!visible) return false;
     var wsum = 0, wn = 0;
     for (var i = 0; i < probe.length; i++) if (probe[i].w > 0) { wsum += probe[i].w; wn++; }
     cacheAvgW = wn ? wsum / wn : 10;
+    cacheVisible = visible;
     cacheEl = el; cacheTop = band.top; cacheBottom = band.bottom;
     build(el, probe, band);
     return true;
@@ -406,20 +404,26 @@
       weightSum += c.w * f * (1 - f);
     }
 
-    /* Give the width back, weighted so it is zero at the cursor and zero at the
-       rim: the peak keeps its magnification and the seam still closes. */
-    if (weightSum > 0) {
+    /* A long line gives the borrowed width back across its middle, so both rims
+       stay welded to the untouched text. A chip of three letters has nobody to
+       borrow from: there, let it grow and centre the growth instead, which is
+       the same thing a magnifier does to a word on its own. */
+    var shortLine = cacheVisible < 5;
+    if (!shortLine && weightSum > 0) {
       var k = -extraSum / weightSum;
       for (var j = 0; j < list.length; j++) raw[j] += k * fall[j] * (1 - fall[j]);
     }
 
     var run = 0, off = new Array(list.length);
     for (var m = 0; m < list.length; m++) {
-      var sc = raw[m];
       off[m] = run;
-      spans[m].style.transform =
-        "translateX(" + run.toFixed(2) + "px) scale(" + sc.toFixed(4) + ")";
-      run += list[m].w * (sc - 1);
+      run += list[m].w * (raw[m] - 1);
+    }
+    var shift = shortLine ? -run / 2 : 0;
+    for (var m2 = 0; m2 < list.length; m2++) {
+      off[m2] += shift;
+      spans[m2].style.transform =
+        "translateX(" + off[m2].toFixed(2) + "px) scale(" + raw[m2].toFixed(4) + ")";
     }
 
     for (var q3 = 0; q3 < runs.length; q3++) {
