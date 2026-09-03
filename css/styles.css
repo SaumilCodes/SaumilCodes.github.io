@@ -1700,3 +1700,32 @@ address {
 }
 
 
+
+/* the text lens.
+   an overlay that redraws the hovered line so the characters near the cursor
+   can grow without the real text reflowing. js/lens.js measures and drives it,
+   and only ever runs for a fine pointer with motion allowed. */
+
+.text-lens {
+  position: fixed;
+  z-index: 9000;
+  overflow: visible;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.text-lens i {
+  position: absolute;
+  display: block;
+  font-style: inherit;
+  white-space: pre;
+  transform-origin: left center;
+  will-change: transform;
+}
+
+.text-lens-bg {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: block;
+}
