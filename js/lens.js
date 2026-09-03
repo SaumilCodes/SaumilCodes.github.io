@@ -157,26 +157,28 @@
     lens.setAttribute("aria-hidden", "true");
     lensLeft = minX;
     lens.style.left = minX + "px";
-    /* With tight leading a glyph box is much taller than the line advance, so
-       consecutive lines overlap. Painting the cover across the whole box would
-       wipe the bottom of the line above. Give this line only the slot it owns:
-       the shared region is split down the middle with each neighbour. */
-    var slotTop = band.top, slotBot = band.bottom;
-    var rgS = document.createRange();
-    rgS.selectNodeContents(el);
-    var allS = [].slice.call(rgS.getClientRects()).filter(function (b) { return b.width > 0.5 && b.height > 0.5; });
-    var tops = [];
-    allS.forEach(function (b) {
-      for (var t = 0; t < tops.length; t++) if (Math.abs(tops[t].top - b.top) < 1) return;
-      tops.push({ top: b.top, bottom: b.bottom });
+    /* The cover has to hide every glyph on this line, or the original shows
+       through above and below it and each letter is drawn twice. So it spans
+       exactly what the characters occupy, no less. Sitting a shade into the
+       neighbouring line's box is harmless, because that part of the box is
+       ascent and descent room rather than ink. */
+    var slotTop = Infinity, slotBot = -Infinity;
+    list.forEach(function (c) {
+      if (c.y < slotTop) slotTop = c.y;
+      if (c.y + c.h > slotBot) slotBot = c.y + c.h;
     });
-    tops.sort(function (a, b) { return a.top - b.top; });
-    for (var ti = 0; ti < tops.length; ti++) {
-      if (Math.abs(tops[ti].top - band.top) > 1) continue;
-      if (ti > 0) slotTop = (tops[ti - 1].bottom + tops[ti].top) / 2;
-      if (ti < tops.length - 1) slotBot = (tops[ti].bottom + tops[ti + 1].top) / 2;
-      break;
-    }
+    if (!isFinite(slotTop)) { slotTop = band.top; slotBot = band.bottom; }
+    /* and room for the growth: a magnified glyph reaches above and below the
+       box it was measured in, by half its gain on each side */
+    var fsB = parseFloat(cs.fontSize) || 16;
+    var peakB = Math.min(0.35, (ZOOM - 1) * (52 / Math.max(fsB, 8)));
+    var tallest = 0;
+    list.forEach(function (c) { if (c.h > tallest) tallest = c.h; });
+    var roomB = tallest * peakB / 2 + 1;
+    slotTop -= roomB;
+    slotBot += roomB;
+
+
     lens.style.top = slotTop + "px";
     /* Without an explicit size the box collapses, the background covers
        nothing, and the original shows through under the overlay: every glyph
