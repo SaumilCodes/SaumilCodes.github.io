@@ -65,10 +65,7 @@
     for (i = 0; i < all.length; i++) {
       b = all[i];
       if (b.width < 0.5 || b.height < 0.5) continue;
-      /* allow a little slack above and below: a chip or a button is mostly
-         padding, and the cursor is rarely dead on the glyphs */
-      var slack = b.height * 0.75;
-      if (y < b.top - slack || y > b.bottom + slack) continue;
+      if (y < b.top - 0.5 || y > b.bottom + 0.5) continue;
       var d = Math.abs((b.top + b.bottom) / 2 - y);
       if (d < bestD) { bestD = d; seed = b; }
     }
@@ -325,9 +322,13 @@
     for (var b2 = 0; b2 < probe.length; b2++) {
       if (probe[b2].owner !== el && decorated(probe[b2].owner, el)) return false;
     }
+    /* The width borrowed under the cursor is paid back by the characters around
+       it, and a line of three or four glyphs has nobody to pay. Growing them
+       from the middle instead worked, but it took a hover fallback to reach
+       them at all, and that reached too much else besides. Left alone. */
     var visible = 0;
     for (var v = 0; v < probe.length; v++) if (probe[v].ch.trim() && probe[v].w > 0) visible++;
-    if (!visible) return false;
+    if (visible < 5) return false;
     var wsum = 0, wn = 0;
     for (var i = 0; i < probe.length; i++) if (probe[i].w > 0) { wsum += probe[i].w; wn++; }
     cacheAvgW = wn ? wsum / wn : 10;
@@ -354,9 +355,9 @@
       var cp = document.caretPositionFromPoint(x, y);
       if (cp) { rg = document.createRange(); rg.setStart(cp.offsetNode, cp.offset); rg.collapse(true); }
     }
-    if (!rg) return fallbackAt(x, y);
+    if (!rg) return null;
     var node = rg.startContainer;
-    if (!node || node.nodeType !== 3) return fallbackAt(x, y);
+    if (!node || node.nodeType !== 3) return null;
     var host = node.parentElement;
     if (!host || host.closest(".text-lens")) return null;
     // the caret snaps to the nearest text, so confirm the point is really on it
@@ -367,18 +368,8 @@
       var b = rects[i];
       if (x >= b.left - 2 && x <= b.right + 2 && y >= b.top - 2 && y <= b.bottom + 2) { hit = true; break; }
     }
-    if (!hit) return fallbackAt(x, y);
+    if (!hit) return null;
     return blockOf(host);
-  }
-
-  /* The caret only lands on glyphs. A chip is mostly padding, so pointing at
-     it would otherwise do nothing at all; take the element under the pointer
-     instead, as long as it actually holds text. */
-  function fallbackAt(x, y) {
-    var e = document.elementFromPoint(x, y);
-    if (!e || e.closest(".text-lens")) return null;
-    var blk = blockOf(e);
-    return hasText(blk) ? blk : null;
   }
 
   function paint() {
@@ -441,8 +432,7 @@
        stay welded to the untouched text. A chip of three letters has nobody to
        borrow from: there, let it grow and centre the growth instead, which is
        the same thing a magnifier does to a word on its own. */
-    var shortLine = cacheVisible < 5;
-    if (!shortLine && weightSum > 0) {
+    if (weightSum > 0) {
       var k = -extraSum / weightSum;
       for (var j = 0; j < list.length; j++) raw[j] += k * fall[j] * (1 - fall[j]);
     }
@@ -452,9 +442,7 @@
       off[m] = run;
       run += list[m].w * (raw[m] - 1);
     }
-    var shift = shortLine ? -run / 2 : 0;
     for (var m2 = 0; m2 < list.length; m2++) {
-      off[m2] += shift;
       spans[m2].style.transform =
         "translateX(" + off[m2].toFixed(2) + "px) scale(" + raw[m2].toFixed(4) + ")";
     }
