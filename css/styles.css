@@ -735,20 +735,33 @@ main > section:target .label {
   font-weight: 500;
 }
 
-/* about, the opening paragraph gets a drop cap */
+/* about, the opening paragraph.
+   it used to open on a drop cap, which is a pseudo element standing across
+   three rows: the lens could not redraw it without wiping the rows beneath, so
+   the whole paragraph had to sit the effect out. the accent moved to the edge
+   of the block instead, where it is decoration rather than text, and the
+   paragraph reads as the opening of the section on its own terms: a size up
+   from the body, looser lines, a shorter measure. */
 
 .lead-para {
-  font-size: 1.08rem;
+  font-size: 1.2rem;
+  line-height: 1.7;
+  max-width: 56ch;
+  border-left: 4px solid var(--accent);
+  padding-left: 1.4rem;
+  margin-block: 0.2rem 1.6rem;
 }
 
-.lead-para::first-letter {
-  float: left;
-  font-family: var(--display);
-  font-weight: 800;
-  font-size: 3.6em;
-  line-height: 0.76;
-  margin: 0.05em 0.14em 0 0;
-  color: var(--accent);
+.lead-para strong,
+.lead-para b {
+  font-weight: 700;
+}
+
+@media (max-width: 560px) {
+  .lead-para {
+    font-size: 1.08rem;
+    padding-left: 1rem;
+  }
 }
 
 .pull-quote {
