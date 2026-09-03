@@ -1,0 +1,5 @@
+
+# local test rigs, never shipped
+_*.html
+_*.js
+_shots/

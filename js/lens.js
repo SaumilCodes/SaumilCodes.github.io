@@ -65,7 +65,10 @@
     for (i = 0; i < all.length; i++) {
       b = all[i];
       if (b.width < 0.5 || b.height < 0.5) continue;
-      if (y < b.top - 0.5 || y > b.bottom + 0.5) continue;
+      /* allow a little slack above and below: a chip or a button is mostly
+         padding, and the cursor is rarely dead on the glyphs */
+      var slack = b.height * 0.75;
+      if (y < b.top - slack || y > b.bottom + slack) continue;
       var d = Math.abs((b.top + b.bottom) / 2 - y);
       if (d < bestD) { bestD = d; seed = b; }
     }
@@ -351,9 +354,9 @@
       var cp = document.caretPositionFromPoint(x, y);
       if (cp) { rg = document.createRange(); rg.setStart(cp.offsetNode, cp.offset); rg.collapse(true); }
     }
-    if (!rg) return null;
+    if (!rg) return fallbackAt(x, y);
     var node = rg.startContainer;
-    if (!node || node.nodeType !== 3) return null;
+    if (!node || node.nodeType !== 3) return fallbackAt(x, y);
     var host = node.parentElement;
     if (!host || host.closest(".text-lens")) return null;
     // the caret snaps to the nearest text, so confirm the point is really on it
@@ -364,8 +367,18 @@
       var b = rects[i];
       if (x >= b.left - 2 && x <= b.right + 2 && y >= b.top - 2 && y <= b.bottom + 2) { hit = true; break; }
     }
-    if (!hit) return null;
+    if (!hit) return fallbackAt(x, y);
     return blockOf(host);
+  }
+
+  /* The caret only lands on glyphs. A chip is mostly padding, so pointing at
+     it would otherwise do nothing at all; take the element under the pointer
+     instead, as long as it actually holds text. */
+  function fallbackAt(x, y) {
+    var e = document.elementFromPoint(x, y);
+    if (!e || e.closest(".text-lens")) return null;
+    var blk = blockOf(e);
+    return hasText(blk) ? blk : null;
   }
 
   function paint() {
