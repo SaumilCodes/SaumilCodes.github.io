@@ -108,7 +108,13 @@
             </ul>
           </div>
           <div class="portrait-frame">
-           <img class="portrait" src="images/saumil.jpg" alt="Saumil, at an evening event on campus" width="1280" height="1280">
+           <img class="portrait" src="images/saumil-640.jpg"
+                srcset="images/saumil-320.jpg 320w,
+                        images/saumil-640.jpg 640w,
+                        images/saumil-960.jpg 960w,
+                        images/saumil.jpg 1280w"
+                sizes="(max-width: 400px) 80vw, 320px"
+                alt="Saumil, at an evening event on campus" width="640" height="640" fetchpriority="high">
           </div>
         </div>
       </section>
