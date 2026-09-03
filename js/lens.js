@@ -51,6 +51,26 @@
     return hit;
   }
 
+  function ownsText(el) {
+    for (var n = el.firstChild; n; n = n.nextSibling)
+      if (n.nodeType === 3 && n.nodeValue.trim()) return true;
+    return false;
+  }
+
+  /* A button is mostly padding, so the caret finds no character over most of
+     it. Fall back to the element under the pointer, but only when it is a
+     small box holding its own text: a button or a chip, never a card or a
+     section, which is what made an earlier version grab lines far away. */
+  function fallbackAt(x, y) {
+    var e = document.elementFromPoint(x, y);
+    if (!e || e.closest(".text-lens") || !ownsText(e)) return null;
+    var r = e.getBoundingClientRect();
+    var fs = parseFloat(getComputedStyle(e).fontSize) || 16;
+    if (r.height > fs * 4) return null;
+    var blk = blockOf(e);
+    return hasText(blk) ? blk : null;
+  }
+
   function hasText(el) {
     return !!(el && el.textContent && el.textContent.trim());
   }
@@ -70,7 +90,18 @@
       var d = Math.abs((b.top + b.bottom) / 2 - y);
       if (d < bestD) { bestD = d; seed = b; }
     }
-    if (!seed) return null;
+    if (!seed) {
+      /* single line box: the cursor being in its padding still means this line.
+         a multi line block gets no such licence, or the padding of a card
+         would pick whichever row happened to be nearest. */
+      var only = null, count = 0;
+      for (i = 0; i < all.length; i++) {
+        b = all[i];
+        if (b.width < 0.5 || b.height < 0.5) continue;
+        if (!only || Math.abs(b.top - only.top) > 1) { count++; only = b; }
+      }
+      if (count === 1 && only) seed = only; else return null;
+    }
 
     /* getClientRects gives one rect per inline run, not per line: a paragraph
        containing an <abbr> reports several. Union every fragment that sits on
@@ -365,9 +396,9 @@
       var cp = document.caretPositionFromPoint(x, y);
       if (cp) { rg = document.createRange(); rg.setStart(cp.offsetNode, cp.offset); rg.collapse(true); }
     }
-    if (!rg) return null;
+    if (!rg) return fallbackAt(x, y);
     var node = rg.startContainer;
-    if (!node || node.nodeType !== 3) return null;
+    if (!node || node.nodeType !== 3) return fallbackAt(x, y);
     var host = node.parentElement;
     if (!host || host.closest(".text-lens")) return null;
     // the caret snaps to the nearest text, so confirm the point is really on it
@@ -378,7 +409,7 @@
       var b = rects[i];
       if (x >= b.left - 2 && x <= b.right + 2 && y >= b.top - 2 && y <= b.bottom + 2) { hit = true; break; }
     }
-    if (!hit) return null;
+    if (!hit) return fallbackAt(x, y);
     return blockOf(host);
   }
 
