@@ -99,6 +99,10 @@ html {
 }
 
 body {
+  /* the overlay draws one element per character, so it can never form the fi
+     ligature the page would otherwise use. rather than let the two disagree,
+     which showed as a gap inside words like "file", nobody uses it. */
+  font-variant-ligatures: none;
   margin: 0;
   background-color: var(--paper);
   background-image: radial-gradient(var(--dot) 1.2px, transparent 1.2px);
