@@ -423,7 +423,13 @@ h1 {
   width: fit-content;
   background: var(--accent);
   color: #fff;
-  padding: 0 0.12em;
+  /* the vertical padding is not decoration. at line-height 1.08 the block's
+     box is shorter than the glyphs standing in it, so the lens cover - which
+     is painted in this block's own background - came out taller than the
+     block and grew the purple upward into THE WEB on hover. padded to the
+     cover's height, the purple rectangle is the same size hovered or not. */
+  padding: 0.14em 0.12em;
+  margin-top: 0.12em;
   box-shadow: 5px 5px 0 var(--ink);
 }
 
