@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light">
-  <script>try{if(localStorage.getItem("theme")==="dark")document.documentElement.dataset.theme="dark";}catch(e){}</script>
+  <meta name="theme-color" content="#f2ede1">
+  <script>try{if(localStorage.getItem("theme")==="dark"){document.documentElement.dataset.theme="dark";var m=document.querySelector('meta[name="theme-color"]');if(m)m.content="#16140f";}}catch(e){}</script>
   <title>Resume · Saumil Gupta</title>
   <meta name="description" content="Resume of Saumil Gupta, B.Tech CSE student at JUIT. Printable straight from the browser.">
 
@@ -29,7 +30,7 @@
 <body>
 
   <input type="checkbox" id="theme-switch" class="theme-box">
-  <script>(function(){var b=document.getElementById("theme-switch");if(!b)return;try{if(localStorage.getItem("theme")==="dark")b.checked=true;}catch(e){}b.addEventListener("change",function(){var m=b.checked?"dark":"light";document.documentElement.dataset.theme=m;try{localStorage.setItem("theme",m);}catch(e){}});})();</script>
+  <script>(function(){var b=document.getElementById("theme-switch");if(!b)return;try{if(localStorage.getItem("theme")==="dark")b.checked=true;}catch(e){}b.addEventListener("change",function(){var m=b.checked?"dark":"light";document.documentElement.dataset.theme=m;var c=document.querySelector('meta[name="theme-color"]');if(c)c.content=b.checked?"#16140f":"#f2ede1";try{localStorage.setItem("theme",m);}catch(e){}});})();</script>
 
   <header class="site-head">
     <div class="container nav">
