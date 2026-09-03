@@ -238,8 +238,14 @@ a:hover {
   border-bottom-color: var(--accent);
 }
 
-.nav-links a[aria-current="page"] {
+.nav-links a[aria-current="page"],
+.nav-links a[aria-current="true"] {
   border-bottom-color: var(--accent);
+}
+
+/* the section you are reading, tracked as you scroll */
+.nav-links a[aria-current="true"] {
+  color: var(--accent-deep);
 }
 
 /* the theme switch */

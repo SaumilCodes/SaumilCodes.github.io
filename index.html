@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=16">
+  <link rel="stylesheet" href="css/styles.css?v=17">
 
   <!-- Tells search engines who this page is about, rather than leaving
        them to guess it from the prose. -->
@@ -391,5 +391,34 @@
       <a href="#top">Back to top <span aria-hidden="true">↑</span></a>
     </div>
   </footer>
+  <script>
+  (function () {
+    var links = [].slice.call(document.querySelectorAll('.nav-links a[href^="#"]'));
+    var map = {}, secs = [];
+    links.forEach(function (a) {
+      var s = document.getElementById(a.getAttribute("href").slice(1));
+      if (s) { map[s.id] = a; secs.push(s); }
+    });
+    if (!secs.length) return;
+    var queued = false, last = null;
+    function update() {
+      queued = false;
+      var line = window.innerHeight * 0.5, cur = null;
+      secs.forEach(function (s) {
+        if (s.getBoundingClientRect().top <= line) cur = s.id;
+      });
+      if (cur === last) return;
+      if (last && map[last]) map[last].removeAttribute("aria-current");
+      last = cur;
+      if (cur && map[cur]) map[cur].setAttribute("aria-current", "true");
+    }
+    function onScroll() {
+      if (!queued) { queued = true; requestAnimationFrame(update); }
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    update();
+  })();
+  </script>
 </body>
 </html>
