@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="color-scheme" content="light">
   <meta name="theme-color" content="#f2ede1">
-  <script>try{if(localStorage.getItem("theme")==="dark"){document.documentElement.dataset.theme="dark";var m=document.querySelector('meta[name="theme-color"]');if(m)m.content="#16140f";}}catch(e){}</script>
+  <script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="black"){document.documentElement.dataset.theme=t;var m=document.querySelector('meta[name="theme-color"]');if(m)m.content=t==="black"?"#000000":"#16140f";}}catch(e){}</script>
   <title>Resume · Saumil Gupta</title>
   <meta name="description" content="Resume of Saumil Gupta, B.Tech CSE student at JUIT. Printable straight from the browser.">
 
@@ -25,12 +25,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=21">
+  <link rel="stylesheet" href="css/styles.css?v=22">
 </head>
 <body>
 
-  <input type="checkbox" id="theme-switch" class="theme-box">
-  <script>(function(){var b=document.getElementById("theme-switch");if(!b)return;try{if(localStorage.getItem("theme")==="dark")b.checked=true;}catch(e){}b.addEventListener("change",function(){var m=b.checked?"dark":"light";document.documentElement.dataset.theme=m;var c=document.querySelector('meta[name="theme-color"]');if(c)c.content=b.checked?"#16140f":"#f2ede1";try{localStorage.setItem("theme",m);}catch(e){}});})();</script>
+  <input type="radio" name="theme" id="theme-light" class="theme-box" checked>
+  <input type="radio" name="theme" id="theme-dark" class="theme-box">
+  <input type="radio" name="theme" id="theme-black" class="theme-box">
+  <script>(function(){var C={light:"#f2ede1",dark:"#16140f",black:"#000000"},s="light";try{var v=localStorage.getItem("theme");if(C[v])s=v;}catch(e){}var el=document.getElementById("theme-"+s);if(el)el.checked=true;document.documentElement.dataset.theme=s;var m=document.querySelector('meta[name="theme-color"]');if(m)m.content=C[s];Array.prototype.forEach.call(document.querySelectorAll('input[name="theme"]'),function(r){r.addEventListener("change",function(){if(!r.checked)return;var k=r.id.slice(6);document.documentElement.dataset.theme=k;if(m)m.content=C[k];try{localStorage.setItem("theme",k);}catch(e){}});});})();</script>
 
   <header class="site-head">
     <div class="container nav">
@@ -43,14 +45,11 @@
           <li><a href="index.html">Back to the site</a></li>
         </ul>
       </nav>
-      <label class="theme-toggle" for="theme-switch" title="Toggle dark mode">
-        <span class="visually-hidden">Switch between the light and dark theme</span>
-        <span class="toggle-track">
-          <span class="toggle-icon toggle-sun">☀</span>
-          <span class="toggle-icon toggle-moon">☾</span>
-          <span class="toggle-knob"></span>
-        </span>
-      </label>
+      <span class="theme-switcher" role="group" aria-label="Colour theme">
+        <label class="theme-opt" for="theme-light" title="Light"><span class="visually-hidden">Light theme</span><span aria-hidden="true">☀</span></label>
+        <label class="theme-opt" for="theme-dark" title="Dark"><span class="visually-hidden">Dark theme</span><span aria-hidden="true">☾</span></label>
+        <label class="theme-opt" for="theme-black" title="Black"><span class="visually-hidden">Black theme, for OLED screens</span><span aria-hidden="true">●</span></label>
+      </span>
     </div>
   </header>
 
