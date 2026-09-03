@@ -1651,7 +1651,8 @@ address {
   /* its own line, so the address above it is plain text the lens can take */
   display: block;
   width: fit-content;
-  margin: 0.85rem 0 0;
+  /* space underneath too, so the note below is clear of it */
+  margin: 0.85rem 0 1.1rem;
   cursor: pointer;
   font-size: 0.72rem;
   padding: 0.45em 0.85em;

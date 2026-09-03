@@ -62,6 +62,7 @@
     var rg = document.createRange();
     rg.selectNodeContents(el);
     var all = rg.getClientRects(), seed = null, bestD = Infinity, i, b;
+
     for (i = 0; i < all.length; i++) {
       b = all[i];
       if (b.width < 0.5 || b.height < 0.5) continue;
@@ -129,6 +130,15 @@
     /* A glyph's rect is not its advance once letter-spacing is in play, and the
        offsets are built from advances. Take each step from the next character's
        origin, and keep the measured width only for the final one. */
+    /* A floated drop cap is three lines tall and belongs to none of them. Left
+       in, it stretches the cover across the rows beneath and wipes them out, so
+       it stays as the page drew it and simply does not magnify. */
+    if (out.length > 1) {
+      var hs = out.map(function (c) { return c.h; }).sort(function (a, b) { return a - b; });
+      var mid = hs[Math.floor(hs.length / 2)];
+      out = out.filter(function (c) { return c.h <= mid * 1.6; });
+    }
+
     for (var k = 0; k < out.length - 1; k++) {
       var step = out[k + 1].x - out[k].x;
       if (step > 0 && Math.abs(step - out[k].w) < out[k].w + 4) out[k].w = step;
@@ -216,21 +226,6 @@
     /* A drop cap is a pseudo element, so its size and colour live nowhere in
        the character's own styles; lift them onto the first glyph by hand. */
     var firstLetter = null, firstIdx = -1;
-    try {
-      var fl = getComputedStyle(el, "::first-letter");
-      var rg0 = document.createRange();
-      rg0.selectNodeContents(el);
-      var rects0 = rg0.getClientRects();
-      var onFirstLine = rects0.length && Math.abs(rects0[0].top - band.top) < 1;
-      if (onFirstLine && fl && fl.fontSize && fl.fontSize !== cs.fontSize) {
-        firstLetter = fl;
-        // the browser applies it to the first real letter, not to the newline
-        // and indentation that markup usually starts a paragraph with
-        for (var q = 0; q < list.length; q++) {
-          if (list[q].ch.trim()) { firstIdx = q; break; }
-        }
-      }
-    } catch (e) {}
 
     spans = list.map(function (c, idx) {
       var d = styleOf(c.owner);
@@ -318,7 +313,20 @@
     return false;
   }
 
+  /* A drop cap is a pseudo element standing across three rows and belonging to
+     none of them. Every way of folding it into a line ended up either wiping
+     the rows beneath it or refusing the paragraph anyway, so a block that has
+     one is left alone as the page drew it. */
+  function hasDropCap(el) {
+    try {
+      var fl = getComputedStyle(el, "::first-letter");
+      return !!(fl && fl.fontSize &&
+                parseFloat(fl.fontSize) > parseFloat(getComputedStyle(el).fontSize) * 1.5);
+    } catch (e) { return false; }
+  }
+
   function acquire(el, band) {
+    if (hasDropCap(el)) return false;
     var probe = charsOnLine(el, band);
     if (!probe.length) return false;
     for (var b2 = 0; b2 < probe.length; b2++) {
