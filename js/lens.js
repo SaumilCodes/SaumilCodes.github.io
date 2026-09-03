@@ -276,6 +276,10 @@
       if (d.boxShadow && d.boxShadow !== "none") return true;
       if (d.borderTopLeftRadius && parseFloat(d.borderTopLeftRadius) > 0) return true;
       if (d.outlineStyle && d.outlineStyle !== "none" && parseFloat(d.outlineWidth)) return true;
+      /* rotated or skewed text cannot be reproduced by an upright overlay at
+         all: the measured boxes are the rotated bounds, and redrawing them
+         straight would stand the words up. */
+      if (d.transform && d.transform !== "none") return true;
     }
     return false;
   }

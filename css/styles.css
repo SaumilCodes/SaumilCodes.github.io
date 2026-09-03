@@ -407,12 +407,18 @@ h1 {
 }
 
 .h1-accent {
-  display: inline-block;
+  /* its own line, hugging the words: the block behind the text is then the
+     line's own background rather than something sitting inside the row, which
+     is what lets the lens take this line like any other.
+     the tilt is gone on purpose. rotated text cannot be redrawn upright, so it
+     was the one thing keeping this line out. sitting straight, with the offset
+     shadow doing the work, it still reads as a stamped block. */
+  display: block;
+  width: fit-content;
   background: var(--accent);
   color: #fff;
   padding: 0 0.12em;
-  transform: rotate(-1.5deg);
-  box-shadow: 4px 4px 0 var(--ink);
+  box-shadow: 5px 5px 0 var(--ink);
 }
 
 .lede {
