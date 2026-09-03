@@ -157,13 +157,33 @@
     lens.setAttribute("aria-hidden", "true");
     lensLeft = minX;
     lens.style.left = minX + "px";
-    lens.style.top = band.top + "px";
+    /* With tight leading a glyph box is much taller than the line advance, so
+       consecutive lines overlap. Painting the cover across the whole box would
+       wipe the bottom of the line above. Give this line only the slot it owns:
+       the shared region is split down the middle with each neighbour. */
+    var slotTop = band.top, slotBot = band.bottom;
+    var rgS = document.createRange();
+    rgS.selectNodeContents(el);
+    var allS = [].slice.call(rgS.getClientRects()).filter(function (b) { return b.width > 0.5 && b.height > 0.5; });
+    var tops = [];
+    allS.forEach(function (b) {
+      for (var t = 0; t < tops.length; t++) if (Math.abs(tops[t].top - b.top) < 1) return;
+      tops.push({ top: b.top, bottom: b.bottom });
+    });
+    tops.sort(function (a, b) { return a.top - b.top; });
+    for (var ti = 0; ti < tops.length; ti++) {
+      if (Math.abs(tops[ti].top - band.top) > 1) continue;
+      if (ti > 0) slotTop = (tops[ti - 1].bottom + tops[ti].top) / 2;
+      if (ti < tops.length - 1) slotBot = (tops[ti].bottom + tops[ti + 1].top) / 2;
+      break;
+    }
+    lens.style.top = slotTop + "px";
     /* Without an explicit size the box collapses, the background covers
        nothing, and the original shows through under the overlay: every glyph
        is drawn twice and the row reads as bold. The cover is the line box and
        never a pixel more, so the row above is left alone. */
     lens.style.width = (maxX - minX) + "px";
-    lens.style.height = band.height + "px";
+    lens.style.height = Math.max(1, slotBot - slotTop) + "px";
     lens.style.background = bgOf(el);
 
     /* Styles come from each character's own parent, not from the hovered
@@ -215,7 +235,7 @@
       var s = document.createElement("i");
       s.textContent = c.ch;
       s.style.left = (c.x - minX) + "px";
-      s.style.top = (c.y - band.top) + "px";
+      s.style.top = (c.y - slotTop) + "px";
       s.style.height = c.h + "px";
       s.style.lineHeight = c.h + "px";
       /* Width is the advance, not the ink. Otherwise an underline is drawn
@@ -261,7 +281,7 @@
       b.style.borderWidth = d.borderWidth;
       b.style.borderRadius = d.borderRadius;
       b.style.boxShadow = d.boxShadow;
-      b.style.top = (ob.top - band.top) + "px";
+      b.style.top = (ob.top - slotTop) + "px";
       b.style.height = ob.height + "px";
       lens.insertBefore(b, lens.firstChild);
       /* the gap between the box edge and the first glyph is padding: hold it

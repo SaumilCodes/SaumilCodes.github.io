@@ -1155,7 +1155,9 @@ main > section:target .label {
 .shout {
   font-size: clamp(3.2rem, 13vw, 7rem);
   font-weight: 800;
-  line-height: 0.86;
+  /* 0.86 had the two lines overlapping before anything magnified them, so any
+     growth under the cursor read as a collision. this still stacks tightly. */
+  line-height: 0.97;
   letter-spacing: -0.03em;
   text-transform: uppercase;
   margin-bottom: 1.6rem;
@@ -1166,7 +1168,8 @@ main > section:target .label {
   display: block;
   width: 3.5rem;
   height: 0.55rem;
-  margin-top: 1rem;
+  /* clear of the descenders once the last line grows */
+  margin-top: 1.5rem;
   background: var(--amber);
   border: 2px solid var(--ink);
 }
