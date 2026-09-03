@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600..800&family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=25">
+  <link rel="stylesheet" href="css/styles.css?v=26">
 
   <!-- Tells search engines who this page is about, rather than leaving
        them to guess it from the prose. -->
@@ -461,106 +461,6 @@
     });
   })();
   </script>
-  <script>
-  (function () {
-    var h = document.querySelector(".hero-text h1");
-    if (!h) return;
-    if (!window.matchMedia) return;
-    if (!matchMedia("(pointer: fine)").matches) return;
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-    h.setAttribute("aria-label", h.textContent.replace(/\s+/g, " ").trim());
-
-    // wrap every visible character, leave the spaces as text so the line still
-    // breaks and spaces the way it did before
-    (function split(node) {
-      [].slice.call(node.childNodes).forEach(function (n) {
-        if (n.nodeType === 3) {
-          var frag = document.createDocumentFragment();
-          n.nodeValue.split("").forEach(function (ch) {
-            if (ch === " " || ch === " ") { frag.appendChild(document.createTextNode(ch)); return; }
-            var s = document.createElement("span");
-            s.className = "ltr";
-            s.textContent = ch;
-            frag.appendChild(s);
-          });
-          node.replaceChild(frag, n);
-        } else if (n.nodeType === 1) {
-          split(n);
-        }
-      });
-    })(h);
-
-    var letters = [].slice.call(h.querySelectorAll(".ltr"));
-    if (!letters.length) return;
-    h.classList.add("is-magnetic");
-
-    var pts = [], box = null, raf = 0, mx = -99999, my = -99999;
-    var RADIUS = 140, LIFT = 12, GROW = 0.3, PAD = 180;
-
-    // clear before measuring: a letter that is currently lifted reports its
-    // transformed rect, which would bake the offset into its stored centre and
-    // leave any letter that drifted out of range stuck at its last size.
-    function measure() {
-      for (var i = 0; i < letters.length; i++) {
-        letters[i].style.transform = "";
-        letters[i].style.fontVariationSettings = "";
-      }
-      box = h.getBoundingClientRect();
-      pts = letters.map(function (el) {
-        var r = el.getBoundingClientRect();
-        return { el: el, x: r.left + r.width / 2, y: r.top + r.height / 2, on: false };
-      });
-    }
-
-    // measure and repaint in the same tick so nothing flickers mid scroll
-    function remeasure() { measure(); paint(); }
-
-    function paint() {
-      raf = 0;
-      for (var i = 0; i < pts.length; i++) {
-        var p = pts[i];
-        var dx = p.x - mx, dy = p.y - my;
-        var d = Math.sqrt(dx * dx + dy * dy);
-        var k = d >= RADIUS ? 0 : 1 - d / RADIUS;
-        k = k * k * (3 - 2 * k);
-        if (!k) {
-          if (p.on) { p.el.style.transform = ""; p.el.style.fontVariationSettings = ""; p.on = false; }
-          continue;
-        }
-        p.el.style.transform = "translateY(" + (-LIFT * k).toFixed(2) + "px) scale(" + (1 + GROW * k).toFixed(3) + ")";
-        p.el.style.fontVariationSettings = '"wght" ' + Math.round(700 + 100 * k);
-        p.on = true;
-      }
-    }
-
-    // always replace the pending frame rather than latching a flag. a dropped
-    // callback, which happens when the tab goes to the background, would
-    // otherwise leave the flag raised and kill the effect for good.
-    function queue() {
-      if (raf) cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(paint);
-    }
-
-    addEventListener("pointermove", function (e) {
-      if (!box) return;
-      // cheap reject when the cursor is nowhere near the headline
-      if (e.clientX < box.left - PAD || e.clientX > box.right + PAD ||
-          e.clientY < box.top - PAD || e.clientY > box.bottom + PAD) {
-        if (mx === -99999) return;
-        mx = my = -99999; queue(); return;
-      }
-      mx = e.clientX; my = e.clientY; queue();
-    }, { passive: true });
-
-    addEventListener("pointerleave", function () { mx = my = -99999; queue(); });
-    addEventListener("blur", function () { mx = my = -99999; queue(); });
-    addEventListener("resize", remeasure);
-    addEventListener("scroll", remeasure, { passive: true });
-
-    measure();
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(remeasure);
-  })();
-  </script>
+  <script src="js/lens.js?v=1" defer></script>
 </body>
 </html>
