@@ -1608,3 +1608,26 @@ address {
   background: var(--accent);
   color: var(--paper);
 }
+
+/* touch targets in the nav.
+   the links render 23px tall, under the 24px minimum, and on a phone the two
+   wrapped rows sat 4px apart, which made them easy to mis-tap. widen the hit
+   area with a pseudo element so nothing moves visually, and open the row gap
+   enough that the enlarged areas do not overlap each other. mice are precise
+   enough already, so this only applies to coarse pointers. */
+
+@media (pointer: coarse) {
+  .nav-links {
+    row-gap: 0.85rem;
+  }
+
+  .nav-links a {
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: "";
+    position: absolute;
+    inset: -5px -4px;
+  }
+}
