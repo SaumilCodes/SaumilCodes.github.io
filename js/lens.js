@@ -23,10 +23,10 @@
   var EASE = 0.34;        // how quickly the sampled point chases the pointer
   var AMP_EASE = 0.26;    // how quickly a row fades in and out
 
-  var lens = null, spans = [], chars = [];
+  var lens = null, spans = [], chars = [], runs = [];
   var cacheEl = null, cacheTop = 0, cacheBottom = -1, cacheAvgW = 10;
   var raf = 0, px = 0, py = 0, sx = 0, sy = 0, running = false;
-  var amp = 0, ampTarget = 1;
+  var amp = 0, ampTarget = 1, lensLeft = 0;
 
   function bgOf(el) {
     for (var n = el; n && n !== document.documentElement; n = n.parentElement) {
@@ -89,7 +89,7 @@
 
   function destroy() {
     if (lens) { lens.remove(); lens = null; }
-    spans = []; chars = [];
+    spans = []; chars = []; runs = [];
     cacheEl = null; cacheTop = 0; cacheBottom = -1;
     amp = 0; ampTarget = 1;
   }
@@ -106,6 +106,7 @@
     lens = document.createElement("div");
     lens.className = "text-lens";
     lens.setAttribute("aria-hidden", "true");
+    lensLeft = minX;
     lens.style.left = minX + "px";
     lens.style.top = band.top + "px";
     /* Without an explicit size the box collapses, the background covers
@@ -126,14 +127,16 @@
       if (hit) return hit;
       var d = getComputedStyle(node);
       var own = {
+        /* resolved up the tree: a transparent span inside a button still
+           sits on the button colour, and must join its run */
+        _bg: bgOf(node),
         fontFamily: d.fontFamily, fontWeight: d.fontWeight, fontStyle: d.fontStyle,
         fontSize: d.fontSize, fontVariationSettings: d.fontVariationSettings,
         fontFeatureSettings: d.fontFeatureSettings, letterSpacing: d.letterSpacing,
         wordSpacing: d.wordSpacing, color: d.color, textTransform: d.textTransform,
         textDecoration: d.textDecoration, textDecorationColor: d.textDecorationColor,
         textDecorationThickness: d.textDecorationThickness,
-        textUnderlineOffset: d.textUnderlineOffset,
-        background: d.backgroundColor
+        textUnderlineOffset: d.textUnderlineOffset
       };
       seen.set(node, own);
       return own;
@@ -144,7 +147,11 @@
     var firstLetter = null, firstIdx = -1;
     try {
       var fl = getComputedStyle(el, "::first-letter");
-      if (fl && fl.fontSize && fl.fontSize !== cs.fontSize) {
+      var rg0 = document.createRange();
+      rg0.selectNodeContents(el);
+      var rects0 = rg0.getClientRects();
+      var onFirstLine = rects0.length && Math.abs(rects0[0].top - band.top) < 1;
+      if (onFirstLine && fl && fl.fontSize && fl.fontSize !== cs.fontSize) {
         firstLetter = fl;
         // the browser applies it to the first real letter, not to the newline
         // and indentation that markup usually starts a paragraph with
@@ -162,7 +169,7 @@
       s.style.top = (c.y - band.top) + "px";
       s.style.height = c.h + "px";
       s.style.lineHeight = c.h + "px";
-      for (var k in d) if (d[k]) s.style[k] = d[k];
+      for (var k in d) if (k.charAt(0) !== "_" && d[k]) s.style[k] = d[k];
       if (idx === firstIdx && firstLetter) {
         s.style.fontSize = firstLetter.fontSize;
         s.style.fontFamily = firstLetter.fontFamily;
@@ -173,6 +180,27 @@
       lens.appendChild(s);
       return s;
     });
+    /* Backgrounds belong to runs of characters, never to single ones. Painting
+       each glyph its own block leaves a seam between every letter and tears
+       apart as they spread. One element per run, resized each frame instead. */
+    runs = [];
+    var pageBg = bgOf(el), start = -1, runBg = null;
+    function closeRun(endIdx) {
+      if (start < 0) return;
+      var b = document.createElement("b");
+      b.className = "text-lens-bg";
+      b.style.background = runBg;
+      lens.insertBefore(b, lens.firstChild);
+      runs.push({ el: b, from: start, to: endIdx });
+      start = -1; runBg = null;
+    }
+    for (var i2 = 0; i2 < list.length; i2++) {
+      var bg = styleOf(list[i2].owner)._bg;
+      var own = bg && bg !== pageBg && !/rgba\(0, 0, 0, 0\)/.test(bg) ? bg : null;
+      if (own !== runBg) { closeRun(i2 - 1); if (own) { start = i2; runBg = own; } }
+    }
+    closeRun(list.length - 1);
+
     document.body.appendChild(lens);
     chars = list;
   }
@@ -259,12 +287,21 @@
       for (var j = 0; j < list.length; j++) raw[j] += k * fall[j] * (1 - fall[j]);
     }
 
-    var run = 0;
+    var run = 0, off = new Array(list.length);
     for (var m = 0; m < list.length; m++) {
       var sc = raw[m];
+      off[m] = run;
       spans[m].style.transform =
         "translateX(" + run.toFixed(2) + "px) scale(" + sc.toFixed(4) + ")";
       run += list[m].w * (sc - 1);
+    }
+
+    for (var q3 = 0; q3 < runs.length; q3++) {
+      var rn = runs[q3], a = list[rn.from], z = list[rn.to];
+      var l = a.x - lensLeft + off[rn.from];
+      var rgt = z.x - lensLeft + off[rn.to] + z.w * raw[rn.to];
+      rn.el.style.left = l.toFixed(2) + "px";
+      rn.el.style.width = Math.max(0, rgt - l).toFixed(2) + "px";
     }
 
     if (moving || Math.abs(ampTarget - amp) > 0.004) {
