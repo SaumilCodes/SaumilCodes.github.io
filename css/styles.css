@@ -1725,7 +1725,5 @@ address {
 
 .text-lens-bg {
   position: absolute;
-  top: 0;
-  bottom: 0;
   display: block;
 }

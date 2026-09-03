@@ -218,13 +218,17 @@
       s.style.top = (c.y - band.top) + "px";
       s.style.height = c.h + "px";
       s.style.lineHeight = c.h + "px";
+      /* Width is the advance, not the ink. Otherwise an underline is drawn
+         only under each glyph and the rule arrives broken into pieces. */
+      s.style.width = c.w + "px";
       for (var k in d) if (k.charAt(0) !== "_" && d[k]) s.style[k] = d[k];
       if (idx === firstIdx && firstLetter) {
         s.style.fontSize = firstLetter.fontSize;
         s.style.fontFamily = firstLetter.fontFamily;
         s.style.fontWeight = firstLetter.fontWeight;
-        s.style.lineHeight = firstLetter.lineHeight;
         s.style.color = firstLetter.color;
+        /* keep the measured box: the pseudo element's own line-height fights
+           the height the glyph was actually laid out at */
       }
       lens.appendChild(s);
       return s;
@@ -239,6 +243,12 @@
       var b = document.createElement("b");
       b.className = "text-lens-bg";
       b.style.background = runBg;
+      /* The block behind the text is usually shorter than the line box, so a
+         run stretched to the cover would stand taller than the original and
+         bleed into the row above. Take the owner's own height. */
+      var owner = list[start].owner, ob = owner.getBoundingClientRect();
+      b.style.top = (ob.top - band.top) + "px";
+      b.style.height = ob.height + "px";
       lens.insertBefore(b, lens.firstChild);
       runs.push({ el: b, from: start, to: endIdx });
       start = -1; runBg = null;
