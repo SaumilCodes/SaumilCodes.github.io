@@ -1687,3 +1687,24 @@ address {
     margin: 0.9rem 0 0;
   }
 }
+
+/* the headline reacts to the cursor.
+   each character is its own inline block so it can lift and thicken as the
+   pointer nears it, and settle back when it leaves. the weight ramp needs the
+   variable axis of syne, which is why the font is loaded as 600..800 rather
+   than three fixed cuts. script only adds the spans on a fine pointer with
+   motion allowed, so touch and reduced motion get the plain headline. */
+
+.is-magnetic .ltr {
+  display: inline-block;
+  will-change: transform;
+  transition: transform 0.22s cubic-bezier(0.22, 0.8, 0.28, 1),
+              font-variation-settings 0.22s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .is-magnetic .ltr {
+    transition: none;
+    transform: none !important;
+  }
+}
