@@ -1699,26 +1699,23 @@ address {
   }
 }
 
+/* the headline reacts to the cursor.
+   each character is its own inline block so it can lift and thicken as the
+   pointer nears it, and settle back when it leaves. the weight ramp needs the
+   variable axis of syne, which is why the font is loaded as 600..800 rather
+   than three fixed cuts. script only adds the spans on a fine pointer with
+   motion allowed, so touch and reduced motion get the plain headline. */
 
-
-/* the text lens.
-   an overlay that redraws the hovered line so the characters near the cursor
-   can grow without the real text reflowing. js/lens.js measures and drives it,
-   and only ever runs for a fine pointer with motion allowed. */
-
-.text-lens {
-  position: fixed;
-  z-index: 9000;
-  overflow: visible;
-  pointer-events: none;
+.is-magnetic .ltr {
+  display: inline-block;
   will-change: transform;
+  transition: transform 0.22s cubic-bezier(0.22, 0.8, 0.28, 1),
+              font-variation-settings 0.22s ease-out;
 }
 
-.text-lens i {
-  position: absolute;
-  display: block;
-  font-style: inherit;
-  white-space: pre;
-  transform-origin: left center;
-  will-change: transform;
+@media (prefers-reduced-motion: reduce) {
+  .is-magnetic .ltr {
+    transition: none;
+    transform: none !important;
+  }
 }
