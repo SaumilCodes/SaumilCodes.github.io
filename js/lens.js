@@ -233,30 +233,47 @@
       lens.appendChild(s);
       return s;
     });
-    /* Backgrounds belong to runs of characters, never to single ones. Painting
-       each glyph its own block leaves a seam between every letter and tears
-       apart as they spread. One element per run, resized each frame instead. */
+    /* A run is a stretch of characters belonging to one decorated element, and
+       it carries that element's whole box: background, border, radius and
+       shadow. Drawing the box once per run rather than per glyph is what keeps
+       it whole, and carrying the border is what lets a button or a nav link be
+       magnified instead of refused. */
     runs = [];
-    var pageBg = bgOf(el), start = -1, runBg = null;
+    var pageBg = bgOf(el), start = -1, runOwner = null;
+    function boxy(node) {
+      if (node === el) return false;
+      var d = getComputedStyle(node);
+      if (parseFloat(d.borderTopWidth) || parseFloat(d.borderRightWidth) ||
+          parseFloat(d.borderBottomWidth) || parseFloat(d.borderLeftWidth)) return true;
+      if (d.boxShadow && d.boxShadow !== "none") return true;
+      if (parseFloat(d.borderTopLeftRadius) > 0) return true;
+      var b = bgOf(node);
+      return !!(b && b !== pageBg && !/rgba\(0, 0, 0, 0\)/.test(b));
+    }
     function closeRun(endIdx) {
-      if (start < 0) return;
+      if (start < 0 || endIdx < start) { start = -1; runOwner = null; return; }
+      var owner = runOwner, ob = owner.getBoundingClientRect(), d = getComputedStyle(owner);
       var b = document.createElement("b");
       b.className = "text-lens-bg";
-      b.style.background = runBg;
-      /* The block behind the text is usually shorter than the line box, so a
-         run stretched to the cover would stand taller than the original and
-         bleed into the row above. Take the owner's own height. */
-      var owner = list[start].owner, ob = owner.getBoundingClientRect();
+      b.style.background = d.backgroundColor;
+      b.style.borderStyle = d.borderStyle;
+      b.style.borderColor = d.borderColor;
+      b.style.borderWidth = d.borderWidth;
+      b.style.borderRadius = d.borderRadius;
+      b.style.boxShadow = d.boxShadow;
       b.style.top = (ob.top - band.top) + "px";
       b.style.height = ob.height + "px";
       lens.insertBefore(b, lens.firstChild);
-      runs.push({ el: b, from: start, to: endIdx });
-      start = -1; runBg = null;
+      /* the gap between the box edge and the first glyph is padding: hold it
+         steady while the text inside grows */
+      runs.push({ el: b, from: start, to: endIdx,
+                  padL: list[start].x - ob.left,
+                  padR: ob.right - (list[endIdx].x + list[endIdx].w) });
+      start = -1; runOwner = null;
     }
     for (var i2 = 0; i2 < list.length; i2++) {
-      var bg = styleOf(list[i2].owner)._bg;
-      var own = bg && bg !== pageBg && !/rgba\(0, 0, 0, 0\)/.test(bg) ? bg : null;
-      if (own !== runBg) { closeRun(i2 - 1); if (own) { start = i2; runBg = own; } }
+      var o2 = list[i2].owner, want = boxy(o2) ? o2 : null;
+      if (want !== runOwner) { closeRun(i2 - 1); if (want) { start = i2; runOwner = want; } }
     }
     closeRun(list.length - 1);
 
@@ -268,17 +285,12 @@
      rounded corner, so on a line that carries any of those it would paint the
      background flat over the box and hand back only the letters. Buttons,
      chips and framed labels are left alone rather than damaged. */
+  /* Borders, shadows, radii and backgrounds are all redrawn by the runs now.
+     A transform is the one thing that cannot be: the measured boxes are the
+     rotated bounds, so redrawing them upright would stand the words up. */
   function decorated(node, stop) {
     for (var n = node; n && n !== stop && n !== document.body; n = n.parentElement) {
       var d = getComputedStyle(n);
-      if (parseFloat(d.borderTopWidth) || parseFloat(d.borderRightWidth) ||
-          parseFloat(d.borderBottomWidth) || parseFloat(d.borderLeftWidth)) return true;
-      if (d.boxShadow && d.boxShadow !== "none") return true;
-      if (d.borderTopLeftRadius && parseFloat(d.borderTopLeftRadius) > 0) return true;
-      if (d.outlineStyle && d.outlineStyle !== "none" && parseFloat(d.outlineWidth)) return true;
-      /* rotated or skewed text cannot be reproduced by an upright overlay at
-         all: the measured boxes are the rotated bounds, and redrawing them
-         straight would stand the words up. */
       if (d.transform && d.transform !== "none") return true;
     }
     return false;
@@ -412,8 +424,8 @@
 
     for (var q3 = 0; q3 < runs.length; q3++) {
       var rn = runs[q3], a = list[rn.from], z = list[rn.to];
-      var l = a.x - lensLeft + off[rn.from];
-      var rgt = z.x - lensLeft + off[rn.to] + z.w * raw[rn.to];
+      var l = a.x - lensLeft + off[rn.from] - rn.padL;
+      var rgt = z.x - lensLeft + off[rn.to] + z.w * raw[rn.to] + rn.padR;
       rn.el.style.left = l.toFixed(2) + "px";
       rn.el.style.width = Math.max(0, rgt - l).toFixed(2) + "px";
     }

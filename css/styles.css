@@ -1733,4 +1733,5 @@ address {
 .text-lens-bg {
   position: absolute;
   display: block;
+  box-sizing: border-box;
 }
